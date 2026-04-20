@@ -4,6 +4,9 @@ export type Site = {
   EMAIL: string;
   NUM_POSTS_ON_HOMEPAGE: number;
   NUM_PROJECTS_ON_HOMEPAGE: number;
+  ENABLE_GISCUS: boolean;
+  ENABLE_PROJECTS: boolean;
+  ENABLE_SIDE_TOC: boolean;
 };
 
 export type Metadata = {

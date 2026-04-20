@@ -1,9 +1,11 @@
 ---
 import TableOfContentsHeading from "./TableOfContentsHeading.astro";
+import { SITE } from "@consts";
 
 // https://kld.dev/building-table-of-contents/
 const { headings } = Astro.props;
 const toc = buildToc(headings);
+const isSide = SITE.ENABLE_SIDE_TOC;
 
 export interface Heading {
   depth: number;
@@ -29,7 +31,10 @@ function buildToc(headings: Heading[]) {
 
 <details
   open
-  class="animate group rounded-lg border border-black/15 dark:border-white/20"
+  class:list={[
+    "animate group rounded-lg border border-black/15 dark:border-white/20",
+    { "sticky top-4 max-h-[calc(100vh-2rem)]": isSide }
+  ]}
 >
   <summary
     class="cursor-pointer rounded-t-lg px-3 py-1.5 font-medium transition-colors group-open:bg-black/5 hover:bg-black/5 dark:group-open:bg-white/5 hover:dark:bg-white/5"
