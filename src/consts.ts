@@ -1,8 +1,8 @@
 import type { Metadata, Site, Socials, I18n } from "@types";
 
 export const SITE: Site = {
-  TITLE: "Astro Micro",
-  DESCRIPTION: "Astro Micro is an accessible and lightweight blog.", // RSS and SEO related
+  TITLE: "Gustavo Justo",
+  DESCRIPTION: "Gustavo personal blog", // RSS and SEO related
   EMAIL: "gustavo_justo@outlook.com",
   ENABLE_GISCUS: false,
   ENABLE_PROJECTS: true,
@@ -43,15 +43,11 @@ export const PROJECTS: Metadata = {
 
 export const SOCIALS: Socials = [
   {
-    NAME: "X (formerly Twitter)",
-    HREF: "https://twitter.com/boogerbuttcheek",
+    NAME: "LinkedIn",
+    HREF: "https://linkedin.com/in/gustavojst/",
   },
   {
     NAME: "GitHub",
-    HREF: "https://github.com/trevortylerlee",
-  },
-  {
-    NAME: "Website",
-    HREF: "https://trevortylerlee.com",
+    HREF: "https://github.com/gustavojst",
   },
 ];
