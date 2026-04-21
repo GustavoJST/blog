@@ -5,6 +5,13 @@ import mdx from "@astrojs/mdx";
 import pagefind from "astro-pagefind";
 import tailwindcss from "@tailwindcss/vite";
 
+const sitemapLocales = Object.fromEntries(
+  Object.entries(I18N.LANGUAGES).map(([key, value]) => [
+    key,
+    value.sitemapCode,
+  ])
+);
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://astro-micro.vercel.app",
@@ -20,11 +27,8 @@ export default defineConfig({
     sitemap({
       i18n: {
         // All urls that don't contain `es` or `fr` after `https://example.com/` will be treated as default locale, i.e. `en`
-        defaultLocale: 'en',
-        locales: {
-          en: 'en', // The `defaultLocale` value must present in `locales` keys
-          'pt-br': 'pt-BR',
-        },
+        defaultLocale: I18N.DEFAULT_LANGUAGE,
+        locales: sitemapLocales
       },
     }),
     mdx(),

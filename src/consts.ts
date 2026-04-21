@@ -13,8 +13,14 @@ export const SITE: Site = {
 
 export const I18N: I18n = {
   LANGUAGES: {
-    "en": 'English',
-    "pt-br": 'Português do Brasil',
+    "en": {
+      "displayText": "English",
+      "sitemapCode": "en"
+    },
+    "pt-br": {
+      "displayText": "Português do Brasil",
+      "sitemapCode": "pt-BR",
+    }
   },
   DEFAULT_LANGUAGE: 'en'
 }

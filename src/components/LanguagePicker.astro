@@ -30,7 +30,7 @@ const currentPath = Astro.url.pathname
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"/>
       </svg>
       <span id="lang-display" class="truncate max-w-[42px] sm:max-w-none">
-        {locales[currentLang]}
+        {locales[currentLang].displayText}
       </span>
     </div>
 
@@ -48,9 +48,9 @@ const currentPath = Astro.url.pathname
     id="lang-dropdown"
     class="astro-data-reload absolute right-0 top-full mt-1 w-36 origin-top-right rounded-md border border-black/15 bg-white shadow-lg transition-all duration-300 ease-in-out opacity-0 scale-95 pointer-events-none dark:border-white/20 dark:bg-neutral-900"
   >
-    <div class="py-1" role="menu">
+    <div role="menu">
       {
-      Object.entries(locales).map(([lang, label]) => {
+      Object.entries(locales).map(([lang, config]) => {
         const url = getRelativeLocaleUrl(lang, currentPath);
         const isActive = lang === currentLang;
         return (
@@ -63,7 +63,7 @@ const currentPath = Astro.url.pathname
                 : 'text-neutral-700 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white'
             }`}
           >
-            {label}
+            {config.displayText}
           </a>
         );
       })}

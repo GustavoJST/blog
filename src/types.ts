@@ -9,8 +9,13 @@ export type Site = {
   ENABLE_SIDE_TOC: boolean;
 };
 
+export type LanguageConfig = {
+  displayText: string;
+  sitemapCode: string;
+};
+
 export type I18n = {
-  LANGUAGES: Record<string, string>;
+  LANGUAGES: Record<string, LanguageConfig>;
   DEFAULT_LANGUAGE: string;
 };
 
