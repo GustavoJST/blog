@@ -15,8 +15,6 @@ const currentPath = Astro.url.pathname
   <button
     id="lang-button"
     class="flex w-full items-center justify-between rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
-    aria-expanded="false"
-    aria-haspopup="true"
   >
     <div class="flex items-center min-w-0">
       <svg
@@ -48,26 +46,28 @@ const currentPath = Astro.url.pathname
     id="lang-dropdown"
     class="astro-data-reload absolute right-0 top-full mt-1 w-36 origin-top-right rounded-md border border-black/15 bg-white shadow-lg transition-all duration-300 ease-in-out opacity-0 scale-95 pointer-events-none dark:border-white/20 dark:bg-neutral-900"
   >
-    <div role="menu">
-      {
-      Object.entries(locales).map(([lang, config]) => {
-        const url = getRelativeLocaleUrl(lang, currentPath);
-        const isActive = lang === currentLang;
-        return (
-          <a
-            data-astro-reload
-            href={url}
-            class={`lang-option block px-4 py-2 text-xs transition-colors duration-200 ${
-              isActive
-                ? 'bg-black/5 text-black font-semibold dark:bg-white/10 dark:text-white'
-                : 'text-neutral-700 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white'
-            }`}
-          >
-            {config.displayText}
-          </a>
-        );
-      })}
-    </div>
+    <ul>
+    {
+    Object.entries(locales).map(([lang, config]) => {
+      const url = getRelativeLocaleUrl(lang, currentPath);
+      const isActive = lang === currentLang;
+      return (
+        <li>
+        <a
+          data-astro-reload
+          href={url}
+          class={`lang-option block px-4 py-2 text-xs transition-colors duration-200 ${
+            isActive
+              ? 'bg-black/5 text-black font-semibold dark:bg-white/10 dark:text-white'
+              : 'text-neutral-700 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white'
+          }`}
+        >
+          {config.displayText}
+        </a>
+        </li>
+      );
+    })}
+    </ul>
   </div>
 </div>
 
