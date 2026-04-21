@@ -19,7 +19,7 @@ const { entry } = Astro.props as {
 ---
 
 <a
-  href={getRelativeLocaleUrl(lang, `${entry.collection}/${entry.id}`)}
+  href={getRelativeLocaleUrl(lang, `${entry.collection}/${entry.data.url}`)}
   class="not-prose group relative flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 rounded-lg border border-black/15 px-4 py-3 pr-10 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
 >
   <div class="flex min-w-0 flex-1 flex-col">

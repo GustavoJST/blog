@@ -4,7 +4,7 @@ description: "How to add projects to your portfolio."
 date: "2024-03-20"
 tags:
   - tutorial
-slug: "04-projects-collection"
+url: "04-projects-collection"
 lang: "en"
 ---
 

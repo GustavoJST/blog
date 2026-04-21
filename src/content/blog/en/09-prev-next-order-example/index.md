@@ -4,7 +4,7 @@ description: "Pagination works regardless of folder name."
 date: "2024-03-21"
 tags:
   - example
-slug: "09-prev-next-order-example"
+url: "09-prev-next-order-example"
 lang: "en"
 ---
 

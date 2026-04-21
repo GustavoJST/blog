@@ -5,7 +5,7 @@ date: "2022-12-31"
 draft: false
 tags:
   - example
-slug: "08-draft-example"
+url: "08-draft-example"
 lang: "en"
 ---
 

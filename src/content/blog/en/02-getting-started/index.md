@@ -4,7 +4,7 @@ description: "Hit the ground running."
 date: "2024-03-22"
 tags:
   - tutorial
-slug: "02-getting-started"
+url: "02-getting-started"
 lang: "en"
 ---
 
