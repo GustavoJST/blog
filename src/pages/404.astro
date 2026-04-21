@@ -17,7 +17,7 @@ const t = useTranslations(lang);
         404: {t('404.title')}
       </h4>
       <span class="animate">
-        <BackToPrevious href={getRelativeLocaleUrl(lang)} >{t('404.backToHome')}</BackToPrevious>
+        <BackToPrevious href={getRelativeLocaleUrl(lang)} forceReload={true} >{t('404.backToHome')}</BackToPrevious>
       </span>
     </div>
   </Container>
