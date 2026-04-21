@@ -16,7 +16,20 @@ export default defineConfig({
       redirectToDefaultLocale: false,
     }
   },
-  integrations: [sitemap(), mdx(), pagefind()],
+  integrations: [
+    sitemap({
+      i18n: {
+        // All urls that don't contain `es` or `fr` after `https://example.com/` will be treated as default locale, i.e. `en`
+        defaultLocale: 'en',
+        locales: {
+          en: 'en', // The `defaultLocale` value must present in `locales` keys
+          'pt-br': 'pt-BR',
+        },
+      },
+    }),
+    mdx(),
+    pagefind()
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
