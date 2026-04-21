@@ -1,4 +1,3 @@
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import { ui } from './ui';
 import { I18N } from '@consts';
 
