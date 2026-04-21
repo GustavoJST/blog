@@ -1,0 +1,128 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { I18N } from '@consts';
+import { getLangFromPath } from '@i18n/utils';
+
+const locales = I18N.LANGUAGES;
+const currentLang = getLangFromPath(Astro.url.pathname);
+const currentPath = Astro.url.pathname
+  .replace(`/${currentLang}/`, '/')  // Remove language prefix
+  .replace(/^\//, '');  // Remove leading slash
+---
+
+<div id="language-switcher" class="relative inline-block text-left">
+
+  <button
+    id="lang-button"
+    class="flex w-full items-center justify-between rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
+    aria-expanded="false"
+    aria-haspopup="true"
+  >
+    <div class="flex items-center min-w-0">
+      <svg
+        class="w-4 mr-1 inline shrink-0"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"/>
+      </svg>
+      <span id="lang-display" class="truncate max-w-[42px] sm:max-w-none">
+        {locales[currentLang]}
+      </span>
+    </div>
+
+    <svg
+      id="lang-chevron"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      class="size-4 shrink-0 ml-2 transition-transform duration-300 ease-in-out"
+    >
+      <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+    </svg>
+  </button>
+
+  <div
+    id="lang-dropdown"
+    class="astro-data-reload absolute right-0 top-full mt-1 w-36 origin-top-right rounded-md border border-black/15 bg-white shadow-lg transition-all duration-300 ease-in-out opacity-0 scale-95 pointer-events-none dark:border-white/20 dark:bg-neutral-900"
+  >
+    <div class="py-1" role="menu">
+      {
+      Object.entries(locales).map(([lang, label]) => {
+        const url = getRelativeLocaleUrl(lang, currentPath);
+        const isActive = lang === currentLang;
+        return (
+          <a
+            data-astro-reload
+            href={url}
+            class={`lang-option block px-4 py-2 text-xs transition-colors duration-200 ${
+              isActive
+                ? 'bg-black/5 text-black font-semibold dark:bg-white/10 dark:text-white'
+                : 'text-neutral-700 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white'
+            }`}
+          >
+            {label}
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<script>
+  function initLanguagePicker() {
+    const button = document.getElementById('lang-button');
+    const dropdown = document.getElementById('lang-dropdown');
+    const chevron = document.getElementById('lang-chevron');
+
+    if (!button || !dropdown || !chevron) return;
+
+    let isOpen = false;
+
+    const toggleDropdown = (force?: boolean) => {
+      isOpen = force !== undefined ? force : !isOpen;
+
+      if (isOpen) {
+        dropdown.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+        dropdown.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
+        chevron.classList.add('rotate-180');
+        button.setAttribute('aria-expanded', 'true');
+      } else {
+        dropdown.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+        dropdown.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        chevron.classList.remove('rotate-180');
+        button.setAttribute('aria-expanded', 'false');
+      }
+    };
+
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDropdown();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!button.contains(e.target as Node) && !dropdown.contains(e.target as Node)) {
+        toggleDropdown(false);
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = (e.target as HTMLElement).closest('.lang-option');
+      if (target) {
+        toggleDropdown(false);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        toggleDropdown(false);
+        button.focus();
+      }
+    });
+  }
+
+  // initLanguagePicker();
+  document.addEventListener('astro:page-load', initLanguagePicker);
+</script>

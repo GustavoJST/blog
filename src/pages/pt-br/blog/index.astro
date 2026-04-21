@@ -3,14 +3,13 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
-import { getLangFromPath } from "@i18n/utils";
 import { BLOG } from "@consts";
 
-const lang = getLangFromPath(Astro.url.pathname);
-
 const data = (await getCollection("blog"))
-  .filter((post) => !post.data.draft && post.data.lang == lang)
+  .filter((post) => !post.data.draft && post.data.lang == "pt-br")
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+console.log(data)
 
 type Acc = {
   [year: string]: CollectionEntry<"blog">[];

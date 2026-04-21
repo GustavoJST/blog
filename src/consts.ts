@@ -1,4 +1,4 @@
-import type { Metadata, Site, Socials } from "@types";
+import type { Metadata, Site, Socials, I18n } from "@types";
 
 export const SITE: Site = {
   TITLE: "Astro Micro",
@@ -10,6 +10,14 @@ export const SITE: Site = {
   NUM_PROJECTS_ON_HOMEPAGE: 3,
   NUM_POSTS_ON_HOMEPAGE: 5,
 };
+
+export const I18N: I18n = {
+  LANGUAGES: {
+    "en": 'English',
+    "pt-br": 'Português do Brasil',
+  },
+  DEFAULT_LANGUAGE: 'en'
+}
 
 export const HOME: Metadata = {
   TITLE: "Home",

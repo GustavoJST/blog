@@ -1,15 +1,18 @@
 ---
+import { getLangFromPath } from '@/i18n/utils';
+
 interface Props {
   date: Date;
 }
 
 const { date } = Astro.props;
+const lang = getLangFromPath(Astro.url.pathname);
 ---
 
 <time datetime={date.toISOString()}>
   {
-    date.toLocaleDateString("en-US", {
-      month: "long",
+    date.toLocaleDateString(lang, {
+      month: "short",
       day: "2-digit",
       year: "numeric",
     })

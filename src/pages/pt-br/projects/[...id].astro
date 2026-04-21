@@ -20,7 +20,7 @@ export async function getStaticPaths() {
   }
 
   const projects = (await getCollection("projects"))
-    .filter((project) => !project.data.draft && project.data.lang == "en")
+    .filter((project) => !project.data.draft && project.data.lang == "pt-br")
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return projects.map((project) => ({
     params: { id: project.id },

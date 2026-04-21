@@ -9,6 +9,11 @@ export type Site = {
   ENABLE_SIDE_TOC: boolean;
 };
 
+export type I18n = {
+  LANGUAGES: Record<string, string>;
+  DEFAULT_LANGUAGE: string;
+};
+
 export type Metadata = {
   TITLE: string;
   DESCRIPTION: string;

@@ -1,0 +1,38 @@
+export const defaultLang = 'en';
+
+export const ui = {
+  "en": {
+    'nav.blog': 'blog',
+    'nav.projects': 'projects',
+    'nav.search': 'Search',
+    'footer.backToTop': 'Back to top',
+    'pagefind.press': 'Press',
+    'pagefind.orClickAnywhereToClose': 'or click anywhere to close',
+    'toc.title': 'Table of Contents',
+    '404.title': 'Page not Found',
+    '404.backToHome': 'Go to home page',
+    'readingTime': 'min read',
+    'blogPost.back': 'Back to blog',
+    'projectsPost.back': 'Back to projects',
+    'tags.mainPage.title': "Tags",
+    'tags.tag.back': 'Back to tags',
+    'tags.tag.pageTitle': 'Posts tagged with',
+  },
+  "pt-br": {
+    'nav.blog': 'blog',
+    'nav.projects': 'projetos',
+    'nav.search': 'Buscar',
+    'footer.backToTop': 'Voltar ao topo',
+    'pagefind.press': 'Pressione',
+    'pagefind.orClickAnywhereToClose': 'ou clique em qualquer lugar para fechar',
+    'toc.title': 'Índice',
+    '404.title': 'Página não encontrada',
+    '404.backToHome': 'Voltar a página inicial',
+    'readingTime': 'min de leitura',
+    'blogPost.back': 'Voltar ao blog',
+    'projectsPost.back': 'Voltar aos projetos',
+    'tags.mainPage.title': "Tags",
+    'tags.tag.back': 'Voltar para tags',
+    'tags.tag.pageTitle': 'Posts com a tag',
+  },
+} as const;
