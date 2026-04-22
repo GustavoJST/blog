@@ -23,7 +23,7 @@ export async function getStaticPaths() {
     .filter((project) => !project.data.draft && project.data.lang == "en")
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return projects.map((project) => ({
-    params: { id: project.id },
+    params: { id: project.data.url },
     props: project,
   }));
 }
