@@ -8,7 +8,7 @@ import { getLangFromPath, useTranslations } from "@i18n/utils";
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang)
 
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getCollection("blog", ({ data }) => !data.draft && data.lang == lang);
 const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
 ---
 
