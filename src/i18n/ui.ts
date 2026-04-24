@@ -4,6 +4,7 @@ export const ui = {
   "en": {
     'nav.blog': 'blog',
     'nav.projects': 'projects',
+    'nav.tags': 'tags',
     'nav.search': 'Search',
     'footer.backToTop': 'Back to top',
     'pagefind.press': 'Press',
@@ -22,6 +23,7 @@ export const ui = {
   "pt-br": {
     'nav.blog': 'blog',
     'nav.projects': 'projetos',
+    'nav.tags': 'tags',
     'nav.search': 'Buscar',
     'footer.backToTop': 'Voltar ao topo',
     'pagefind.press': 'Pressione',
