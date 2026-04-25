@@ -70,9 +70,9 @@ const currentPath = Astro.url.pathname
 
 <script>
   function initLanguagePicker() {
-    const pickers = document.querySelectorAll('.js-lang-picker');
+    const langPickers = document.querySelectorAll('.js-lang-picker');
 
-    pickers.forEach((picker) => {
+    langPickers.forEach((picker) => {
       const button = picker.querySelector('.js-lang-button');
       const dropdown = picker.querySelector('.js-lang-dropdown');
       const chevron = picker.querySelector('.js-lang-chevron');
