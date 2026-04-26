@@ -40,7 +40,7 @@ export async function getProjectPaths(lang: string) {
 }
 
 export async function getTagPaths(lang: string) {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const posts = await getCollection("blog", ({ data }) => !data.draft && data.lang == lang);
 
   // Get unique tags
   const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
