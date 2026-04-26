@@ -32,7 +32,9 @@ const sortedPosts = posts.sort(
         {t('tags.tag.pageTitle')} "{id}"
       </h1>
       <ul class="animate flex flex-col gap-4">
-        {sortedPosts.map((post) => <ArrowCard entry={post} />)}
+        <li>
+          {sortedPosts.map((post) => <ArrowCard entry={post} />)}
+        </li>
       </ul>
     </div>
   </Container>
