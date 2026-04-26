@@ -1,0 +1,176 @@
+---
+import Link from "@components/Link.astro";
+import LanguagePicker from "./LanguagePicker.astro";
+import ThemeSwitcher from "./ThemeSwitcher.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getLangFromPath, useTranslations } from "@/i18n/utils";
+import { SITE } from "@consts";
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = useTranslations(lang);
+---
+
+<nav class="sm:hidden relative inline-block text-left" aria-label="Mobile navigation">
+  <aside data-pagefind-ignore id="mobile-menu-blur-backdrop-wrapper">
+    <div
+      id="mobile-menu-blur-backdrop"
+      class="z-0 invisible fixed left-0 top-0 flex h-screen w-full justify-center p-6 backdrop-blur-xs transition-all ease-in-out duration-150"
+    />
+  </aside>
+
+  <button
+    id="mobile-menu-open"
+    aria-expanded="false"
+    aria-label="Mobile menu icon"
+    class="flex items-center rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
+  >
+    <span class="relative flex size-4">
+      <svg
+        id="mobile-menu-icon-hamburger"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="absolute inset-0 transition-all duration-300 ease-in-out"
+      >
+        <line x1="4" x2="20" y1="6" y2="6"></line>
+        <line x1="4" x2="20" y1="12" y2="12"></line>
+        <line x1="4" x2="20" y1="18" y2="18"></line>
+      </svg>
+
+      <svg
+        id="mobile-menu-icon-close"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="absolute inset-0 opacity-0 rotate-90 transition-all duration-300 ease-in-out"
+      >
+        <line x1="5" y1="5" x2="19" y2="19"></line>
+        <line x1="19" y1="5" x2="5" y2="19"></line>
+      </svg>
+    </span>
+  </button>
+
+  <div
+    id="mobile-menu-dropdown"
+    class="absolute right-0 z-20 top-full mt-1 w-[calc(100vw-1.5rem)] origin-top-right rounded-md border border-black/15 bg-white shadow-lg transition-discrete starting:open:opacity-0 duration-300 ease-in-out opacity-0 pointer-events-none dark:border-white/20 dark:bg-neutral-900"
+    role="dialog"
+    aria-label="Mobile navigation menu"
+    aria-modal="true"
+  >
+    <ul class="flex flex-1 flex-col pt-5 justify-center gap-5 text-lg font-medium">
+      <li class="pl-3">
+        <Link underline={false} href={getRelativeLocaleUrl(lang, "blog")}>
+          <span class="opacity-70">•</span>
+          {t('nav.blog')}
+        </Link>
+      </li>
+      {SITE.ENABLE_PROJECTS && (
+        <li class="pl-3">
+          <Link underline={false} href={getRelativeLocaleUrl(lang, "projects")}>
+            <span class="opacity-70">•</span>
+            {t('nav.projects')}
+          </Link>
+        </li>
+      )}
+      <li class="pl-3">
+        <Link underline={false} href={getRelativeLocaleUrl(lang, "tags")}>
+          <span class="opacity-70">•</span>
+          {t('nav.tags')}
+        </Link>
+      </li>
+    </ul>
+
+    <div class="flex flex-1 flex-col items-center justify-center gap-5 pb-3 pt-5 text-lg font-medium">
+      <div class="w-full max-w-xs" aria-hidden="true">
+        <div class="h-px w-full bg-gradient-to-r from-transparent via-black/25 to-transparent dark:via-white/25"></div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <ThemeSwitcher/>
+        <span class="text-neutral-300 dark:text-neutral-700">|</span>
+        <LanguagePicker />
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function initMobileMenu() {
+    const openBtn             = document.getElementById("mobile-menu-open");
+    const menuDropdown        = document.getElementById("mobile-menu-dropdown");
+    const iconHamburger       = document.getElementById("mobile-menu-icon-hamburger");
+    const iconClose           = document.getElementById("mobile-menu-icon-close");
+    const BlurBackdropWrapper = document.getElementById("mobile-menu-blur-backdrop-wrapper");
+    const blurBackdrop        = document.getElementById("mobile-menu-blur-backdrop");
+
+    if (!openBtn || !menuDropdown || !iconHamburger || !iconClose || !blurBackdrop) return;
+
+    let isOpen = false;
+
+    if (BlurBackdropWrapper && BlurBackdropWrapper.parentElement !== document.body) {
+      document.body.appendChild(BlurBackdropWrapper);
+    }
+
+    const openMenu = () => {
+      isOpen = true;
+      menuDropdown.classList.remove("hidden");
+      openBtn.setAttribute("aria-expanded", "true");
+
+      menuDropdown.classList.remove("opacity-0", "pointer-events-none");
+
+      iconHamburger.classList.add("opacity-0", "rotate-90");
+      iconClose.classList.remove("opacity-0", "rotate-90");
+
+      blurBackdrop.classList.remove("invisible");
+      blurBackdrop.classList.add("visible");
+      blurBackdrop.classList.remove("opacity-0");
+      blurBackdrop.classList.add("opacity-100");
+    };
+
+    const closeMenu = () => {
+      if (!isOpen) return;
+      isOpen = false;
+
+      menuDropdown.classList.add("opacity-0");
+      openBtn.setAttribute("aria-expanded", "false");
+
+      iconClose.classList.add("opacity-0", "rotate-90");
+      iconHamburger.classList.remove("opacity-0", "rotate-90");
+
+      blurBackdrop.classList.remove("opacity-100");
+      blurBackdrop.classList.add("opacity-0");
+      blurBackdrop.classList.remove("visible");
+      blurBackdrop.classList.add("invisible");
+    };
+
+    openBtn.addEventListener("click", () => (isOpen ? closeMenu() : openMenu()));
+
+    document.addEventListener("click", (e) => {
+      if (
+        isOpen &&
+        !openBtn.contains(e.target as Node) &&
+        !menuDropdown.contains(e.target as Node)
+      ) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (isOpen && e.key === "Escape") closeMenu();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initMobileMenu);
+</script>

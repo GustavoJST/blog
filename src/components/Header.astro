@@ -2,6 +2,7 @@
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
 import LanguagePicker from "./LanguagePicker.astro";
+import MobileMenu from "./MobileMenu.astro";
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getLangFromPath, useTranslations } from '@/i18n/utils';
 import { SITE } from "@consts";
@@ -10,7 +11,6 @@ const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
 ---
 
-<!-- TODO test transition:persist for header -->
 <header>
   <Container>
     <div class="flex flex-wrap justify-between gap-y-2">
@@ -20,10 +20,13 @@ const t = useTranslations(lang);
         </div>
       </Link>
       <nav class="flex items-center gap-1 text-sm">
-        <Link href={getRelativeLocaleUrl(lang, "blog")}>{t('nav.blog')}</Link>
-        <span>
-          {`/`}
-        </span>
+        <div class="hidden sm:inline-block">
+          <Link href={getRelativeLocaleUrl(lang, "blog")}>{t('nav.blog')}</Link>
+          <span>
+            {`/`}
+          </span>
+        </div>
+        <div class="hidden sm:inline-block">
         {
           SITE.ENABLE_PROJECTS && (
             <Link href={getRelativeLocaleUrl(lang, "projects")}>{t('nav.projects')}</Link>
@@ -32,10 +35,13 @@ const t = useTranslations(lang);
           </span>
           )
         }
-        <Link href={getRelativeLocaleUrl(lang, "tags")}>{t('nav.tags')}</Link>
-        <span>
-          {`/`}
-        </span>
+        </div>
+        <div class="hidden sm:inline-block">
+          <Link href={getRelativeLocaleUrl(lang, "tags")}>{t('nav.tags')}</Link>
+          <span>
+            {`/`}
+          </span>
+        </div>
         <button
           id="magnifying-glass"
           aria-label={t('nav.search')}
@@ -55,7 +61,10 @@ const t = useTranslations(lang);
           >
           <span>&nbsp;{t('nav.search')}</span>
         </button>
-        <LanguagePicker/>
+        <div class="hidden sm:inline-block">
+          <LanguagePicker/>
+        </div>
+        <MobileMenu/>
       </nav>
     </div>
   </Container>
