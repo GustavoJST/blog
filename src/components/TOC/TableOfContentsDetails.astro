@@ -1,0 +1,32 @@
+---
+import TableOfContentsHeading from "./TableOfContentsHeading.astro";
+
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+  subheadings?: Heading[];
+}
+
+interface Props {
+  toc: Heading[];
+  title: string;
+}
+
+const { toc, title } = Astro.props;
+---
+<details
+  open
+  class:list={[
+    "animate group rounded-lg border border-black/15 dark:border-white/20"
+  ]}
+>
+  <summary
+    class="cursor-pointer rounded-t-lg px-3 py-1.5 font-medium transition-colors group-open:bg-black/5 hover:bg-black/5 dark:group-open:bg-white/5 hover:dark:bg-white/5"
+  >{title}</summary>
+  <nav>
+    <ul class="py-3">
+      {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+    </ul>
+  </nav>
+</details>

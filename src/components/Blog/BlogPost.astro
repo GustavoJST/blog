@@ -95,11 +95,7 @@ const { Content, headings } = await render(post);
       }
     </div>
     <div class="relative w-full">
-      {headings.length > 0 && (
-        <div class={`animate ${SITE.ENABLE_SIDE_TOC ? 'block 2xl:hidden' : 'block'} mb-8`}>
-          <TableOfContents headings={headings} />
-        </div>
-      )}
+      <TableOfContents headings={headings} />
       <article class="animate w-full">
         <div class="h-px w-full my-12 bg-gradient-to-r from-transparent via-black/25 to-transparent dark:via-white/20"/>
         <Content />
@@ -114,13 +110,6 @@ const { Content, headings } = await render(post);
         )
         }
       </article>
-      {headings.length > 0 && SITE.ENABLE_SIDE_TOC && (
-        <aside class="hidden 2xl:block absolute left-full top-0 ml-8 w-80 h-full z-10">
-          <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
-            <TableOfContents headings={headings} />
-          </div>
-        </aside>
-      )}
     </div>
   </Container>
 </Layout>

@@ -1,21 +1,19 @@
 ---
-import TableOfContentsHeading from "./TableOfContentsHeading.astro";
+import TableOfContentsDetails from "./TableOfContentsDetails.astro";
 import { getLangFromPath, useTranslations } from '@/i18n/utils';
 import { SITE } from "@consts";
-
-const lang = getLangFromPath(Astro.url.pathname);
-const t = useTranslations(lang);
-
-// https://kld.dev/building-table-of-contents/
-const { headings } = Astro.props;
-const toc = buildToc(headings);
-const isSide = SITE.ENABLE_SIDE_TOC;
 
 export interface Heading {
   depth: number;
   slug: string;
   text: string;
 }
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = useTranslations(lang);
+
+const { headings } = Astro.props;
+const isSide = SITE.ENABLE_SIDE_TOC;
 
 function buildToc(headings: Heading[]) {
   const toc: Heading[] = [];
@@ -31,22 +29,24 @@ function buildToc(headings: Heading[]) {
   });
   return toc;
 }
+
+const toc = buildToc(headings);
 ---
 
-<details
-  open
-  class:list={[
-    "animate group rounded-lg border border-black/15 dark:border-white/20",
-    { "sticky top-4 max-h-[calc(100vh-2rem)]": isSide }
-  ]}
->
-  <summary
-    class="cursor-pointer rounded-t-lg px-3 py-1.5 font-medium transition-colors group-open:bg-black/5 hover:bg-black/5 dark:group-open:bg-white/5 hover:dark:bg-white/5"
-    >{t('toc.title')}</summary
-  >
-  <nav>
-    <ul class="py-3">
-      {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
-    </ul>
-  </nav>
-</details>
+{headings.length > 0 && (
+  <>
+    {/* Inline TOC: always visible, hidden at 2xl when side TOC is active */}
+    <div class:list={["animate mb-8", isSide ? "block 2xl:hidden" : "block"]}>
+      <TableOfContentsDetails toc={toc} title={t('toc.title')} />
+    </div>
+
+    {/* Side TOC: only rendered and shown at 2xl when ENABLE_SIDE_TOC is true */}
+    {isSide && (
+      <aside class="hidden 2xl:block absolute left-full top-0 ml-8 w-80 h-full z-10">
+        <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
+          <TableOfContentsDetails toc={toc} title={t('toc.title')} />
+        </div>
+      </aside>
+    )}
+  </>
+)}
