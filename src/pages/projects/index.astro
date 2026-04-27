@@ -1,5 +1,10 @@
 ---
 import ProjectsHome from "@components/ProjectsHome.astro"
+import { SITE } from "@consts";
+
+if (!SITE.ENABLE_PROJECTS) {
+  return new Response(null, { status: 404, statusText: "Not Found" });
+}
 ---
 
 <ProjectsHome/>

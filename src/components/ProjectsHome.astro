@@ -4,15 +4,10 @@ import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import { getLangFromPath, useTranslations } from "@i18n/utils";
-import { SITE } from "@consts";
 import { PROJECTS } from "@consts";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang)
-
-if (!SITE.ENABLE_PROJECTS) {
-  return Astro.redirect("/404");
-}
 
 const projects = (await getCollection("projects"))
   .filter((project) => !project.data.draft && project.data.lang == lang)
