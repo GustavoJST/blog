@@ -6,7 +6,7 @@ import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrevious from "@components/BackToPrevious.astro";
 import PostNavigation from "@components/PostNavigation.astro";
-import TableOfContents from "@components/TableOfContents.astro";
+import TableOfContents from "@components/TOC/TableOfContents.astro";
 import Giscus from "@components/Giscus.astro";
 import { SITE } from "@consts";
 import { getRelativeLocaleUrl } from "astro:i18n";
@@ -96,11 +96,12 @@ const { Content, headings } = await render(post);
     </div>
     <div class="relative w-full">
       {headings.length > 0 && (
-        <div class={`animate ${SITE.ENABLE_SIDE_TOC ? 'block xl:hidden' : 'block'} mb-8`}>
+        <div class={`animate ${SITE.ENABLE_SIDE_TOC ? 'block 2xl:hidden' : 'block'} mb-8`}>
           <TableOfContents headings={headings} />
         </div>
       )}
       <article class="animate w-full">
+        <div class="h-px w-full my-12 bg-gradient-to-r from-transparent via-black/25 to-transparent dark:via-white/20"/>
         <Content />
         <div class="mt-14">
           <PostNavigation prevPost={prevPost} nextPost={nextPost} />
@@ -114,7 +115,7 @@ const { Content, headings } = await render(post);
         }
       </article>
       {headings.length > 0 && SITE.ENABLE_SIDE_TOC && (
-        <aside class="hidden xl:block absolute left-full top-0 ml-8 w-64 h-full z-10">
+        <aside class="hidden 2xl:block absolute left-full top-0 ml-8 w-80 h-full z-10">
           <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
             <TableOfContents headings={headings} />
           </div>
