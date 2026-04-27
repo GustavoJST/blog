@@ -26,16 +26,16 @@ const t = useTranslations(lang);
             {`/`}
           </span>
         </div>
-        <div class="hidden sm:inline-block">
         {
           SITE.ENABLE_PROJECTS && (
+          <div class="hidden sm:inline-block">
             <Link href={getRelativeLocaleUrl(lang, "projects")}>{t('nav.projects')}</Link>
-          <span>
-            {`/`}
-          </span>
+            <span>
+              {`/`}
+            </span>
+          </div>
           )
         }
-        </div>
         <div class="hidden sm:inline-block">
           <Link href={getRelativeLocaleUrl(lang, "tags")}>{t('nav.tags')}</Link>
           <span>
