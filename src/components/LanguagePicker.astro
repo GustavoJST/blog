@@ -41,7 +41,9 @@ const currentPath = Astro.url.pathname
   </button>
 
   <div
-    class="js-lang-dropdown absolute right-0 top-full mt-1 w-36 origin-top-right rounded-md border border-black/15 bg-white shadow-lg transition-all duration-300 ease-in-out opacity-0 scale-95 pointer-events-none dark:border-white/20 dark:bg-neutral-900 z-50"
+    class="js-lang-dropdown absolute right-0 top-full mt-1 w-36 origin-top-right rounded-md border border-black/15 bg-white shadow-lg transition-all duration-300 ease-in-out opacity-0 pointer-events-none dark:border-white/20 dark:bg-neutral-900"
+    role="listbox"
+    aria-label="Language selection"
   >
     <ul>
     {
@@ -81,44 +83,45 @@ const currentPath = Astro.url.pathname
 
       let isOpen = false;
 
-      const toggleDropdown = (force?: boolean) => {
-        isOpen = force !== undefined ? force : !isOpen;
+      const openDropdown = () => {
+        if (isOpen) return;
+        isOpen = true;
 
-        if (isOpen) {
-          dropdown.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-          dropdown.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
-          chevron.classList.add('rotate-180');
-          button.setAttribute('aria-expanded', 'true');
-        } else {
-          dropdown.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
-          dropdown.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-          chevron.classList.remove('rotate-180');
-          button.setAttribute('aria-expanded', 'false');
-        }
+        dropdown.classList.remove('opacity-0', 'pointer-events-none');
+        chevron.classList.add('rotate-180');
+        button.setAttribute('aria-expanded', 'true');
+      };
+
+      const closeDropdown = () => {
+        if (!isOpen) return;
+        isOpen = false;
+
+        dropdown.classList.add('opacity-0');
+        chevron.classList.remove('rotate-180');
+        button.setAttribute('aria-expanded', 'false');
       };
 
       button.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleDropdown();
+        isOpen ? closeDropdown() : openDropdown();
       });
 
       document.addEventListener('click', (e) => {
-        if (!picker.contains(e.target as Node) && isOpen) {
-          toggleDropdown(false);
+        if (isOpen && !picker.contains(e.target as Node)) {
+          closeDropdown();
         }
       });
 
       const options = picker.querySelectorAll('.js-lang-option');
       options.forEach(option => {
-        option.addEventListener("click", () => {
-          toggleDropdown(false);
+        option.addEventListener('click', () => {
+          closeDropdown();
         });
       });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && isOpen) {
-          toggleDropdown(false);
-          (button as HTMLElement).focus();
+        if (isOpen && e.key === 'Escape') {
+          closeDropdown();
         }
       });
     });
