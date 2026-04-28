@@ -8,8 +8,6 @@ url: "02-getting-started"
 lang: "en"
 ---
 
----
-
 ## Install astro-micro
 
 Clone the [Astro Micro repository](https://github.com/trevortylerlee/astro-micro.git).

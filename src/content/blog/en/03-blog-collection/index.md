@@ -8,8 +8,6 @@ url: "03-blog-collection"
 lang: "en"
 ---
 
----
-
 ## Working with the `blog` collection:
 
 The `blog` collection is found in `src/content/blog`.

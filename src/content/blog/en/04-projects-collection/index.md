@@ -8,8 +8,6 @@ url: "04-projects-collection"
 lang: "en"
 ---
 
----
-
 ## Working with the `projects` collection
 
 The `projects` collections is found in `src/content/projects`.
