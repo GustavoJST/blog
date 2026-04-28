@@ -11,6 +11,7 @@ import Giscus from "@components/Giscus.astro";
 import { SITE } from "@consts";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromPath, useTranslations } from "@i18n/utils";
+import HorizontalRule from "@components/HorizontalRule.astro";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -97,7 +98,7 @@ const { Content, headings } = await render(post);
     <div class="relative w-full">
       <TableOfContents headings={headings} />
       <article class="animate w-full">
-        <div class="h-px w-full my-12 bg-gradient-to-r from-transparent via-black/25 to-transparent dark:via-white/20"/>
+        <HorizontalRule/>
         <Content />
         <div class="mt-14">
           <PostNavigation prevPost={prevPost} nextPost={nextPost} />

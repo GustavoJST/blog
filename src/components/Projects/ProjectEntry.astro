@@ -9,6 +9,7 @@ import Link from "@components/Link.astro";
 import TableOfContents from "@components/TOC/TableOfContents.astro";
 import { getLangFromPath, useTranslations } from "@i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import HorizontalRule from "@components/HorizontalRule.astro";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
@@ -62,6 +63,7 @@ const { Content, headings } = await render(project);
     <div class="relative w-full">
       <TableOfContents headings={headings} />
       <article class="animate">
+        <HorizontalRule/>
         <Content />
       </article>
     </div>
