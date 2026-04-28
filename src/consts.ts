@@ -6,7 +6,7 @@ export const SITE: Site = {
   EMAIL: "gustavo_justo@outlook.com",
   ENABLE_GISCUS: false,
   ENABLE_PROJECTS: true,
-  ENABLE_SIDE_TOC: false,
+  ENABLE_SIDE_TOC: true,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
   NUM_POSTS_ON_HOMEPAGE: 5,
 };
