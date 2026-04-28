@@ -6,6 +6,7 @@ export const SITE: Site = {
   EMAIL: "gustavo_justo@outlook.com",
   ENABLE_GISCUS: false,
   ENABLE_PROJECTS: true,
+  // On screens narrower than 1536px, the side TOC is hidden and the inline TOC is shown instead (as if ENABLE_SIDE_TOC was false)
   ENABLE_SIDE_TOC: true,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
   NUM_POSTS_ON_HOMEPAGE: 5,
