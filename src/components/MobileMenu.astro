@@ -125,14 +125,11 @@ const t = useTranslations(lang);
 
     const openMenu = () => {
       isOpen = true;
-      menuDropdown.classList.remove("hidden");
+
       openBtn.setAttribute("aria-expanded", "true");
-
       menuDropdown.classList.remove("opacity-0", "pointer-events-none");
-
       iconHamburger.classList.add("opacity-0", "rotate-90");
       iconClose.classList.remove("opacity-0", "rotate-90");
-
       blurBackdrop.classList.remove("invisible");
       blurBackdrop.classList.add("visible");
       blurBackdrop.classList.remove("opacity-0");
@@ -145,10 +142,8 @@ const t = useTranslations(lang);
 
       menuDropdown.classList.add("opacity-0");
       openBtn.setAttribute("aria-expanded", "false");
-
       iconClose.classList.add("opacity-0", "rotate-90");
       iconHamburger.classList.remove("opacity-0", "rotate-90");
-
       blurBackdrop.classList.remove("opacity-100");
       blurBackdrop.classList.add("opacity-0");
       blurBackdrop.classList.remove("visible");
