@@ -81,11 +81,13 @@ const { title, description, image = "/astro-micro.jpg" } = Astro.props;
     addCopyCodeButtons();
     setGiscusTheme();
 
-    const themeSwitchers = document.querySelectorAll('.js-theme-switcher');
+    const themeSwitchers = document.querySelectorAll(".js-theme-switcher");
     themeSwitchers.forEach((switcher) => {
-      const lightThemeButton = switcher.querySelector('.js-light-theme-button');
-      const darkThemeButton = switcher.querySelector('.js-dark-theme-button');
-      const systemThemeButton = switcher.querySelector('.js-system-theme-button');
+      const lightThemeButton = switcher.querySelector(".js-light-theme-button");
+      const darkThemeButton = switcher.querySelector(".js-dark-theme-button");
+      const systemThemeButton = switcher.querySelector(
+        ".js-system-theme-button",
+      );
 
       lightThemeButton.addEventListener("click", () => {
         localStorage.setItem("theme", "light");
@@ -105,7 +107,6 @@ const { title, description, image = "/astro-micro.jpg" } = Astro.props;
         updateThemeButtons();
       });
     });
-
 
     const backToTop = document.getElementById("back-to-top");
     backToTop?.addEventListener("click", (event) => scrollToTop(event));
@@ -137,11 +138,13 @@ const { title, description, image = "/astro-micro.jpg" } = Astro.props;
   function updateThemeButtons() {
     const theme = localStorage.getItem("theme");
 
-    const themeSwitchers = document.querySelectorAll('.js-theme-switcher');
+    const themeSwitchers = document.querySelectorAll(".js-theme-switcher");
     themeSwitchers.forEach((switcher) => {
-      const lightThemeButton = switcher.querySelector('.js-light-theme-button');
-      const darkThemeButton = switcher.querySelector('.js-dark-theme-button');
-      const systemThemeButton = switcher.querySelector('.js-system-theme-button');
+      const lightThemeButton = switcher.querySelector(".js-light-theme-button");
+      const darkThemeButton = switcher.querySelector(".js-dark-theme-button");
+      const systemThemeButton = switcher.querySelector(
+        ".js-system-theme-button",
+      );
 
       removeActiveButtonTheme(lightThemeButton);
       removeActiveButtonTheme(darkThemeButton);

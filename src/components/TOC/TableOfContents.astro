@@ -1,6 +1,6 @@
 ---
 import TableOfContentsDetails from "./TableOfContentsDetails.astro";
-import { getLangFromPath, useTranslations } from '@/i18n/utils';
+import { getLangFromPath, useTranslations } from "@/i18n/utils";
 import { SITE } from "@consts";
 
 export interface Heading {
@@ -33,20 +33,22 @@ function buildToc(headings: Heading[]) {
 const toc = buildToc(headings);
 ---
 
-{headings.length > 0 && (
-  <>
-    {/* Inline TOC: always visible, hidden at 2xl when side TOC is active */}
-    <div class:list={["animate mb-8", isSide ? "block 2xl:hidden" : "block"]}>
-      <TableOfContentsDetails toc={toc} title={t('toc.title')} />
-    </div>
+{
+  headings.length > 0 && (
+    <>
+      {/* Inline TOC: always visible, hidden at 2xl when side TOC is active */}
+      <div class:list={["animate mb-8", isSide ? "block 2xl:hidden" : "block"]}>
+        <TableOfContentsDetails toc={toc} title={t("toc.title")} />
+      </div>
 
-    {/* Side TOC: only rendered and shown at 2xl when ENABLE_SIDE_TOC is true */}
-    {isSide && (
-      <aside class="hidden 2xl:block absolute left-full top-0 ml-8 w-80 h-full z-10">
-        <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
-          <TableOfContentsDetails toc={toc} title={t('toc.title')} />
-        </div>
-      </aside>
-    )}
-  </>
-)}
+      {/* Side TOC: only rendered and shown at 2xl when ENABLE_SIDE_TOC is true */}
+      {isSide && (
+        <aside class="absolute top-0 left-full z-10 ml-8 hidden h-full w-80 2xl:block">
+          <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <TableOfContentsDetails toc={toc} title={t("toc.title")} />
+          </div>
+        </aside>
+      )}
+    </>
+  )
+}

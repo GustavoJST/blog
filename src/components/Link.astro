@@ -7,7 +7,7 @@ type Props = {
   underline?: boolean;
   group?: boolean;
   inlineBlock?: boolean;
-  extraClasses?: string
+  extraClasses?: string;
 };
 
 const {
@@ -29,7 +29,7 @@ const {
     underline && "underline underline-offset-[3px]",
     group && "group",
     inlineBlock && "inline-block",
-    extraClasses
+    extraClasses,
   )}
   {...rest}
 >

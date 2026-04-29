@@ -1,7 +1,7 @@
 ---
-import ProjectEntry from '@components/Projects/ProjectEntry.astro';
+import ProjectEntry from "@components/Projects/ProjectEntry.astro";
 import { getProjectPaths } from "@lib/utils";
-import { SITE } from '@consts';
+import { SITE } from "@consts";
 
 export async function getStaticPaths() {
   if (!SITE.ENABLE_PROJECTS) {
@@ -14,4 +14,4 @@ export async function getStaticPaths() {
 const project = Astro.props;
 ---
 
-<ProjectEntry project={project}/>
+<ProjectEntry project={project} />

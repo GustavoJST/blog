@@ -7,17 +7,17 @@ import Link from "@components/Link.astro";
 const { heading } = Astro.props;
 ---
 
-<li class="list-disc ml-9 mr-6 pt-3 text-sm">
+<li class="mr-6 ml-9 list-disc pt-3 text-sm">
   <Link inlineBlock={false} href={"#" + heading.slug} underline>
     {heading.text}
   </Link>
   {
     heading.subheadings.length > 0 && (
-        <ul class="-ml-4">
-          {heading.subheadings.map((subheading: Heading) => (
-            <Astro.self heading={subheading} />
-          ))}
-        </ul>
+      <ul class="-ml-4">
+        {heading.subheadings.map((subheading: Heading) => (
+          <Astro.self heading={subheading} />
+        ))}
+      </ul>
     )
   }
 </li>

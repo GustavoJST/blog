@@ -25,7 +25,9 @@ const { Content, headings } = await render(project);
 <Layout title={project.data.title} description={project.data.description}>
   <Container>
     <div class="animate">
-      <BackToPrevious href={getRelativeLocaleUrl(lang, "projects")}>{t('projects.entry.back')}</BackToPrevious>
+      <BackToPrevious href={getRelativeLocaleUrl(lang, "projects")}
+        >{t("projects.entry.back")}</BackToPrevious
+      >
     </div>
     <div class="animate my-10 space-y-1">
       <div class="flex items-center gap-1.5">
@@ -33,11 +35,11 @@ const { Content, headings } = await render(project);
           <FormattedDate date={project.data.date} />
         </div>
         &bull;
-        {project.body && (
-          <div class="font-base text-sm">
-            {readingTime(project.body)}
-          </div>
-        )}
+        {
+          project.body && (
+            <div class="font-base text-sm">{readingTime(project.body)}</div>
+          )
+        }
       </div>
       <h1 class="text-3xl font-semibold text-black dark:text-white">
         {project.data.title}
@@ -63,7 +65,7 @@ const { Content, headings } = await render(project);
     <div class="relative w-full">
       <TableOfContents headings={headings} />
       <article class="animate">
-        <HorizontalRule/>
+        <HorizontalRule />
         <Content />
       </article>
     </div>

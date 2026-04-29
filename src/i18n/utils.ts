@@ -1,18 +1,18 @@
-import { ui } from './ui';
-import { I18N } from '@consts';
+import { ui } from "./ui";
+import { I18N } from "@consts";
 
 const defaultLang = I18N.DEFAULT_LANGUAGE as keyof typeof ui;
 
 export function getLangFromPath(path: string) {
-  const [, lang] = path.split('/');
+  const [, lang] = path.split("/");
   if (lang in ui) return lang as keyof typeof ui;
   return defaultLang;
 }
 
 export function useTranslations(lang: keyof typeof ui) {
-  return function t(key: keyof typeof ui[typeof defaultLang]) {
+  return function t(key: keyof (typeof ui)[typeof defaultLang]) {
     return key in ui[lang] ? (ui[lang] as any)[key] : ui[defaultLang][key];
-  }
+  };
 }
 
 /**
@@ -28,7 +28,7 @@ export function useTranslations(lang: keyof typeof ui) {
  */
 export function normalizeRegionCode(
   lang: string,
-  mode: "upper" | "lower" = "upper"
+  mode: "upper" | "lower" = "upper",
 ): string {
   const parts = lang.split("-");
 

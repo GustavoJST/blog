@@ -11,7 +11,7 @@ type Props = {
 };
 
 const { title, description } = Astro.props;
-const lang = Astro.currentLocale
+const lang = Astro.currentLocale;
 ---
 
 <!doctype html>
@@ -22,8 +22,8 @@ const lang = Astro.currentLocale
   <body>
     <noscript>
       <style>
-        .animate{
-          opacity:1;
+        .animate {
+          opacity: 1;
           translate: var(--tw-translate-x) calc(var(--spacing) * 0);
         }
       </style>

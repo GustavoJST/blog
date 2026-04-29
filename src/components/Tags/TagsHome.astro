@@ -6,16 +6,19 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromPath, useTranslations } from "@i18n/utils";
 
 const lang = getLangFromPath(Astro.url.pathname);
-const t = useTranslations(lang)
+const t = useTranslations(lang);
 
-const posts = await getCollection("blog", ({ data }) => !data.draft && data.lang == lang);
+const posts = await getCollection(
+  "blog",
+  ({ data }) => !data.draft && data.lang == lang,
+);
 const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
 ---
 
 <Layout title="Tags" description="List of tags used.">
   <Container>
     <div class="space-y-10">
-      <h1 class="animate font-semibold">{t('tags.home.title')}</h1>
+      <h1 class="animate font-semibold">{t("tags.home.title")}</h1>
       <div class="animate flex flex-wrap gap-2">
         {
           tags.map((tag) => (

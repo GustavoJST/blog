@@ -10,12 +10,16 @@ const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
 ---
 
-<nav class="sm:hidden relative inline-block text-left" aria-label="Mobile navigation">
+<nav
+  class="relative inline-block text-left sm:hidden"
+  aria-label="Mobile navigation"
+>
   <aside data-pagefind-ignore id="mobile-menu-blur-backdrop-wrapper">
     <div
       id="mobile-menu-blur-backdrop"
-      class="z-0 invisible fixed left-0 top-0 flex h-screen w-full justify-center p-6 backdrop-blur-xs transition-all ease-in-out duration-150"
-    />
+      class="invisible fixed top-0 left-0 z-0 flex h-screen w-full justify-center p-6 backdrop-blur-xs transition-all duration-150 ease-in-out"
+    >
+    </div>
   </aside>
 
   <button
@@ -54,7 +58,7 @@ const t = useTranslations(lang);
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="absolute inset-0 opacity-0 rotate-90 transition-all duration-300 ease-in-out"
+        class="absolute inset-0 rotate-90 opacity-0 transition-all duration-300 ease-in-out"
       >
         <line x1="5" y1="5" x2="19" y2="19"></line>
         <line x1="19" y1="5" x2="5" y2="19"></line>
@@ -64,41 +68,53 @@ const t = useTranslations(lang);
 
   <div
     id="mobile-menu-dropdown"
-    class="absolute right-0 z-20 top-full mt-1 w-[calc(100vw-1.5rem)] origin-top-right rounded-md border border-black/15 bg-white shadow-lg transition-discrete starting:open:opacity-0 duration-300 ease-in-out opacity-0 pointer-events-none dark:border-white/20 dark:bg-neutral-900"
+    class="pointer-events-none absolute top-full right-0 z-20 mt-1 w-[calc(100vw-1.5rem)] origin-top-right rounded-md border border-black/15 bg-white opacity-0 shadow-lg transition-discrete duration-300 ease-in-out dark:border-white/20 dark:bg-neutral-900 starting:open:opacity-0"
     role="dialog"
     aria-label="Mobile navigation menu"
     aria-modal="true"
   >
-    <ul class="flex flex-1 flex-col pt-5 justify-center gap-5 text-lg font-medium">
+    <ul
+      class="flex flex-1 flex-col justify-center gap-5 pt-5 text-lg font-medium"
+    >
       <li class="pl-3">
         <Link underline={false} href={getRelativeLocaleUrl(lang, "blog")}>
           <span class="opacity-70">•</span>
-          {t('nav.blog')}
+          {t("nav.blog")}
         </Link>
       </li>
-      {SITE.ENABLE_PROJECTS && (
-        <li class="pl-3">
-          <Link underline={false} href={getRelativeLocaleUrl(lang, "projects")}>
-            <span class="opacity-70">•</span>
-            {t('nav.projects')}
-          </Link>
-        </li>
-      )}
+      {
+        SITE.ENABLE_PROJECTS && (
+          <li class="pl-3">
+            <Link
+              underline={false}
+              href={getRelativeLocaleUrl(lang, "projects")}
+            >
+              <span class="opacity-70">•</span>
+              {t("nav.projects")}
+            </Link>
+          </li>
+        )
+      }
       <li class="pl-3">
         <Link underline={false} href={getRelativeLocaleUrl(lang, "tags")}>
           <span class="opacity-70">•</span>
-          {t('nav.tags')}
+          {t("nav.tags")}
         </Link>
       </li>
     </ul>
 
-    <div class="flex flex-1 flex-col items-center justify-center gap-5 pb-3 pt-5 text-lg font-medium">
+    <div
+      class="flex flex-1 flex-col items-center justify-center gap-5 pt-5 pb-3 text-lg font-medium"
+    >
       <div class="w-full max-w-xs" aria-hidden="true">
-        <div class="h-px w-full bg-gradient-to-r from-transparent via-black/25 to-transparent dark:via-white/25"></div>
+        <div
+          class="h-px w-full bg-gradient-to-r from-transparent via-black/25 to-transparent dark:via-white/25"
+        >
+        </div>
       </div>
 
       <div class="flex items-center gap-4">
-        <ThemeSwitcher/>
+        <ThemeSwitcher />
         <span class="text-neutral-300 dark:text-neutral-700">|</span>
         <LanguagePicker />
       </div>
@@ -108,18 +124,30 @@ const t = useTranslations(lang);
 
 <script>
   function initMobileMenu() {
-    const openBtn             = document.getElementById("mobile-menu-open");
-    const menuDropdown        = document.getElementById("mobile-menu-dropdown");
-    const iconHamburger       = document.getElementById("mobile-menu-icon-hamburger");
-    const iconClose           = document.getElementById("mobile-menu-icon-close");
-    const BlurBackdropWrapper = document.getElementById("mobile-menu-blur-backdrop-wrapper");
-    const blurBackdrop        = document.getElementById("mobile-menu-blur-backdrop");
+    const openBtn = document.getElementById("mobile-menu-open");
+    const menuDropdown = document.getElementById("mobile-menu-dropdown");
+    const iconHamburger = document.getElementById("mobile-menu-icon-hamburger");
+    const iconClose = document.getElementById("mobile-menu-icon-close");
+    const BlurBackdropWrapper = document.getElementById(
+      "mobile-menu-blur-backdrop-wrapper",
+    );
+    const blurBackdrop = document.getElementById("mobile-menu-blur-backdrop");
 
-    if (!openBtn || !menuDropdown || !iconHamburger || !iconClose || !blurBackdrop) return;
+    if (
+      !openBtn ||
+      !menuDropdown ||
+      !iconHamburger ||
+      !iconClose ||
+      !blurBackdrop
+    )
+      return;
 
     let isOpen = false;
 
-    if (BlurBackdropWrapper && BlurBackdropWrapper.parentElement !== document.body) {
+    if (
+      BlurBackdropWrapper &&
+      BlurBackdropWrapper.parentElement !== document.body
+    ) {
       document.body.appendChild(BlurBackdropWrapper);
     }
 
@@ -150,7 +178,9 @@ const t = useTranslations(lang);
       blurBackdrop.classList.add("invisible");
     };
 
-    openBtn.addEventListener("click", () => (isOpen ? closeMenu() : openMenu()));
+    openBtn.addEventListener("click", () =>
+      isOpen ? closeMenu() : openMenu(),
+    );
 
     document.addEventListener("click", (e) => {
       if (

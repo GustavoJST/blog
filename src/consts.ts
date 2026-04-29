@@ -14,17 +14,17 @@ export const SITE: Site = {
 
 export const I18N: I18n = {
   LANGUAGES: {
-    "en": {
-      "displayText": "English",
-      "sitemapCode": "en"
+    en: {
+      displayText: "English",
+      sitemapCode: "en",
     },
     "pt-br": {
-      "displayText": "Português do Brasil",
-      "sitemapCode": "pt-BR",
-    }
+      displayText: "Português do Brasil",
+      sitemapCode: "pt-BR",
+    },
   },
-  DEFAULT_LANGUAGE: 'en'
-}
+  DEFAULT_LANGUAGE: "en",
+};
 
 export const HOME: Metadata = {
   TITLE: "Home",

@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { readingTime } from "@lib/utils";
-import { getLangFromPath, useTranslations } from '@/i18n/utils';
+import { getLangFromPath, useTranslations } from "@/i18n/utils";
 import FormattedDate from "@components/FormattedDate.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
@@ -15,44 +15,45 @@ type Props = {
 const { entry } = Astro.props as {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
 };
-
 ---
 
 <a
   href={getRelativeLocaleUrl(lang, `${entry.collection}/${entry.data.url}`)}
-  class="not-prose group relative flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 rounded-lg border border-black/15 px-4 py-3 pr-10 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
+  class="not-prose group relative flex flex-col gap-2 rounded-lg border border-black/15 px-4 py-3 pr-10 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black sm:flex-row sm:items-center sm:gap-4 dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
 >
   <div class="flex min-w-0 flex-1 flex-col">
-    <div class="font-semibold mr-2 line-clamp-2">
+    <div class="mr-2 line-clamp-2 font-semibold">
       {entry.data.title}
     </div>
-    <div class="text-sm font-light mr-2 line-clamp-2">
+    <div class="mr-2 line-clamp-2 text-sm font-light">
       {entry.data.description}
     </div>
   </div>
 
-  {entry.collection == "blog" && (
-  <div
-    class="flex flex-row sm:flex-col sm:ml-auto text-sm tabular-nums text-muted-foreground gap-2 sm:gap-0 sm:text-right"
-  >
-    <div class="text-sm font-extralight">
-      <FormattedDate date={entry.data.date} />
-    </div>
+  {
+    entry.collection == "blog" && (
+      <div class="text-muted-foreground flex flex-row gap-2 text-sm tabular-nums sm:ml-auto sm:flex-col sm:gap-0 sm:text-right">
+        <div class="text-sm font-extralight">
+          <FormattedDate date={entry.data.date} />
+        </div>
 
-    {entry.body && (
-      <div class="text-sm font-extralight">
-        <span class="hidden sm:inline"> </span>
-        <span class="sm:hidden">·</span>
-        <span class="ml-1 sm:ml-0">{readingTime(entry.body)} {t('readingTime')}</span>
+        {entry.body && (
+          <div class="text-sm font-extralight">
+            <span class="hidden sm:inline"> </span>
+            <span class="sm:hidden">·</span>
+            <span class="ml-1 sm:ml-0">
+              {readingTime(entry.body)} {t("readingTime")}
+            </span>
+          </div>
+        )}
       </div>
-    )}
-  </div>
-  )}
+    )
+  }
 
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    class="absolute right-2 top-1/2 size-5 -translate-y-1/2 fill-none stroke-current stroke-2"
+    class="absolute top-1/2 right-2 size-5 -translate-y-1/2 fill-none stroke-current stroke-2"
   >
     <line
       x1="5"

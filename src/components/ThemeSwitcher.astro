@@ -1,17 +1,11 @@
 ---
-
-
 interface Props {
-  svgWidth?: number,
-  svgHeight?: number,
-  viewBox?: string
+  svgWidth?: number;
+  svgHeight?: number;
+  viewBox?: string;
 }
 
-const {
-  svgWidth  = 18,
-  svgHeight = 18,
-  viewBox   = "0 0 24 24"
-} = Astro.props;
+const { svgWidth = 18, svgHeight = 18, viewBox = "0 0 24 24" } = Astro.props;
 ---
 
 <div class="js-theme-switcher flex flex-wrap items-center gap-1.5">
