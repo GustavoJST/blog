@@ -1,0 +1,6 @@
+# Ignore content files
+**/*.md
+**/*.mdx
+
+public/
+src/styles/global.css
