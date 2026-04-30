@@ -5,7 +5,7 @@ export const SITE: Site = {
   DESCRIPTION: "Gustavo personal blog", // RSS and SEO related
   EMAIL: "gustavo_justo@outlook.com",
   ENABLE_GISCUS: false,
-  ENABLE_PROJECTS: true,
+  ENABLE_PROJECTS: false,
   // On screens narrower than 1536px, the side TOC is hidden and the inline TOC is shown instead (as if ENABLE_SIDE_TOC was false)
   ENABLE_SIDE_TOC: true,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
