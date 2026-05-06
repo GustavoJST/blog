@@ -8,6 +8,9 @@ export const SITE: Site = {
   ENABLE_PROJECTS: false,
   // On screens narrower than 1536px, the side TOC is hidden and the inline TOC is shown instead (as if ENABLE_SIDE_TOC was false)
   ENABLE_SIDE_TOC: true,
+  // Enable a "last updated" field on blog posts that have more than one commit.
+  // Implemented using a remark plugin: https://docs.astro.build/en/recipes/modified-time/
+  ENABLE_BLOG_LAST_UPDATED: true,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
   NUM_POSTS_ON_HOMEPAGE: 5,
 };
@@ -17,10 +20,13 @@ export const I18N: I18n = {
     en: {
       displayText: "English",
       sitemapCode: "en",
+      // IANA timezone code
+      timeZone: "America/New_York",
     },
     "pt-br": {
       displayText: "Português do Brasil",
       sitemapCode: "pt-BR",
+      timeZone: "America/Sao_Paulo",
     },
   },
   DEFAULT_LANGUAGE: "en",

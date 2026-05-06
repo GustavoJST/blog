@@ -32,7 +32,8 @@ const postIndex = posts.findIndex((p) => p.data.url === post.data.url);
 const nextPost = posts[postIndex + 1];
 const prevPost = posts[postIndex - 1];
 
-const { Content, headings } = await render(post);
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
+const lastModified: Date = new Date(remarkPluginFrontmatter.lastModified);
 ---
 
 <script>
@@ -75,10 +76,24 @@ const { Content, headings } = await render(post);
         &bull;
         {
           post.body && (
-            <div class="font-base text-sm">{readingTime(post.body)} {t("readingTime")}</div>
+            <div class="font-base text-sm">
+              {readingTime(post.body)} {t("readingTime")}
+            </div>
           )
         }
       </div>
+      {/* Conditionally render based on commit count */}
+      {
+        SITE.ENABLE_BLOG_LAST_UPDATED &&
+          remarkPluginFrontmatter.commitCount > 1 && (
+            <div class="animate flex items-center gap-1.5">
+              <div class="text-sm">{t("blog.post.lastUpdated")}: </div>
+              <div class="text-sm">
+                <FormattedDate date={lastModified} lastUpdatedFormat={true} />
+              </div>
+            </div>
+          )
+      }
       <h1
         class="animate text-3xl font-semibold break-words text-black dark:text-white"
       >

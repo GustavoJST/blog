@@ -7,11 +7,13 @@ export type Site = {
   ENABLE_GISCUS: boolean;
   ENABLE_PROJECTS: boolean;
   ENABLE_SIDE_TOC: boolean;
+  ENABLE_BLOG_LAST_UPDATED: boolean;
 };
 
 export type LanguageConfig = {
   displayText: string;
   sitemapCode: string;
+  timeZone: string;
 };
 
 export type I18n = {
