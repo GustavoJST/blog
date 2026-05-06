@@ -75,7 +75,7 @@ const { Content, headings } = await render(post);
         &bull;
         {
           post.body && (
-            <div class="font-base text-sm">{readingTime(post.body)}</div>
+            <div class="font-base text-sm">{readingTime(post.body)} {t("readingTime")}</div>
           )
         }
       </div>
