@@ -49,17 +49,18 @@ const currentPath = Astro.url.pathname
 
   <div
     class="js-lang-dropdown pointer-events-none absolute top-full right-0 mt-1 w-36 origin-top-right rounded-md border border-black/15 bg-white opacity-0 shadow-lg transition-all duration-300 ease-in-out dark:border-white/20 dark:bg-neutral-900"
-    role="listbox"
+    role="menu"
     aria-label="Language selection"
   >
-    <ul>
+    <ul role="none">
       {
         Object.entries(locales).map(([lang, config]) => {
           const url = getRelativeLocaleUrl(lang, currentPath);
           const isActive = lang === currentLang;
           return (
-            <li>
+            <li role="none">
               <a
+                role="menuitem"
                 data-astro-reload
                 href={url}
                 class={`js-lang-option block px-4 py-2 text-xs transition-colors duration-200 ${
