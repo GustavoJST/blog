@@ -7,14 +7,18 @@ import { SITE } from "@consts";
 
 <footer class="animate">
   <Container>
-    <div class="relative">
-      <div class="absolute -top-12 right-0">
-        <BackToTop />
+    <div class="flex items-end justify-between">
+      <div>
+        <div>&copy; {new Date().getFullYear()} • {SITE.TITLE} 🔬</div>
       </div>
-    </div>
-    <div class="flex items-center justify-between">
-      <div>&copy; {new Date().getFullYear()} • {SITE.TITLE} 🔬</div>
-      <ThemeSwitcher />
+      <div class="flex flex-col items-stretch gap-2">
+        <div class="place-items-end">
+          <BackToTop />
+        </div>
+        <div class="place-items-end">
+          <ThemeSwitcher />
+        </div>
+      </div>
     </div>
   </Container>
 </footer>
