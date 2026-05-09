@@ -34,7 +34,7 @@ export const I18N: I18n = {
 
 export const HOME: Metadata = {
   TITLE: "Home",
-  DESCRIPTION: "Astro Micro is an accessible theme for Astro.",
+  DESCRIPTION: "A personal blog about Linux, Kubernetes, DevOps, and more.",
 };
 
 export const BLOG: Metadata = {
