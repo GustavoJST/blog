@@ -26,7 +26,7 @@ export const ui = {
     "nav.projects": "projetos",
     "nav.tags": "tags",
     "nav.search": "Buscar",
-    "footer.backToTop": "Voltar ao topo",
+    "footer.backToTop": "Retornar",
     "pagefind.press": "Pressione",
     "pagefind.orClickAnywhereToClose": "ou clique em qualquer lugar para fechar",
     "toc.title": "Índice",
