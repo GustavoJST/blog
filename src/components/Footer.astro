@@ -1,7 +1,8 @@
 ---
 import Container from "@components/Container.astro";
 import BackToTop from "@components/BackToTop.astro";
-import ThemeSwitcher from "./ThemeSwitcher.astro";
+import ThemeSwitcher from "@components/ThemeSwitcher.astro";
+import LastBuild from "@components/LastBuild.astro";
 import { SITE } from "@consts";
 ---
 
@@ -9,6 +10,13 @@ import { SITE } from "@consts";
   <Container>
     <div class="flex items-end justify-between">
       <div>
+        {
+          SITE.ENABLE_FOOTER_LAST_BUILD && (
+            <div class="mb-0.5 max-sm:hidden">
+              <LastBuild />
+            </div>
+          )
+        }
         <div>&copy; {new Date().getFullYear()} • {SITE.TITLE} 🔬</div>
       </div>
       <div class="flex flex-col items-stretch gap-2">
@@ -20,5 +28,12 @@ import { SITE } from "@consts";
         </div>
       </div>
     </div>
+    {
+      SITE.ENABLE_FOOTER_LAST_BUILD && (
+        <div class="mt-4 flex justify-center sm:hidden">
+          <LastBuild mobile={true} />
+        </div>
+      )
+    }
   </Container>
 </footer>

@@ -8,11 +8,22 @@ export const SITE: Site = {
   ENABLE_PROJECTS: false,
   // On screens narrower than 1536px, the side TOC is hidden and the inline TOC is shown instead (as if ENABLE_SIDE_TOC was false)
   ENABLE_SIDE_TOC: true,
-  // Enable a "last updated" field on blog posts that have more than one commit.
+  // Enable a "last updated" field on blog posts that have more than one commit
   // Implemented using a remark plugin: https://docs.astro.build/en/recipes/modified-time/
   ENABLE_BLOG_LAST_UPDATED: true,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
   NUM_POSTS_ON_HOMEPAGE: 5,
+  // Enables displaying the website's latest build timestamp in the footer,
+  // along with a link to the commit associated with that build
+  ENABLE_FOOTER_LAST_BUILD: true,
+  // Base URL used to generate the link to the commit associated with the latest build
+  //
+  // Examples:
+  // GitHub: https://github.com/GustavoJST/blog/commit
+  // GitLab: https://gitlab.rnp.br/[group]/[project]/-/commit
+  //
+  // Do not include a trailing slash in the URL
+  FOOTER_LAST_BUILD_COMMIT_URL: "https://github.com/GustavoJST/blog/commit",
 };
 
 export const I18N: I18n = {
