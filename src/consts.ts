@@ -43,6 +43,13 @@ export const I18N: I18n = {
   DEFAULT_LANGUAGE: "en",
 };
 
+// Link/social preview card configuration
+// ------------------------------------------------------------------------------
+// Set the image to be used for the link preview card.
+// Image must reside in the "/public" directory.
+// An empty value means no image will be used
+export const PREVIEW_IMAGE : string = ""
+
 export const HOME: Metadata = {
   TITLE: "Home",
   DESCRIPTION: "A personal blog about Linux, Kubernetes, DevOps, and more.",
@@ -58,6 +65,7 @@ export const PROJECTS: Metadata = {
   DESCRIPTION:
     "A collection of my projects with links to repositories and live demos.",
 };
+// ------------------------------------------------------------------------------
 
 export const SOCIALS: Socials = [
   {
