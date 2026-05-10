@@ -15,7 +15,7 @@ const sitemapLocales = Object.fromEntries(
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astro-micro.vercel.app",
+  site: "https://gustavojusto.com",
   i18n: {
     locales: Object.keys(I18N.LANGUAGES), // ["en", "pt-br", etc]
     defaultLocale: I18N.DEFAULT_LANGUAGE,
