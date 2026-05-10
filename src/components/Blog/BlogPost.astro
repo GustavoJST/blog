@@ -100,7 +100,7 @@ const dateFormat: Intl.DateTimeFormatOptions = {
         SITE.ENABLE_BLOG_LAST_UPDATED &&
           remarkPluginFrontmatter.commitCount > 1 && (
             <div class="animate flex items-center gap-1.5">
-              <div class="text-sm">{t("blog.post.lastUpdated")}: </div>
+              <div class="text-sm">{t("blog.post.updatedAt")}: </div>
               <div class="text-sm">
                 <FormattedDate date={lastModified} dateFormat={dateFormat} />
               </div>
