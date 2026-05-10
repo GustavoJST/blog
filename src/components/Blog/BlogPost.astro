@@ -9,6 +9,7 @@ import PostNavigation from "@components/PostNavigation.astro";
 import TableOfContents from "@components/TOC/TableOfContents.astro";
 import Giscus from "@components/Giscus.astro";
 import { SITE } from "@consts";
+import { I18N } from "@consts";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromPath, useTranslations } from "@i18n/utils";
 import HorizontalRule from "@components/HorizontalRule.astro";
@@ -34,6 +35,18 @@ const prevPost = posts[postIndex - 1];
 
 const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const lastModified: Date = new Date(remarkPluginFrontmatter.lastModified);
+
+const dateFormat: Intl.DateTimeFormatOptions = {
+  month: "short",
+  day: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+  dayPeriod: "long",
+  timeZoneName: "short",
+  timeZone: I18N.LANGUAGES[lang].timeZone,
+};
 ---
 
 <script>
@@ -89,7 +102,7 @@ const lastModified: Date = new Date(remarkPluginFrontmatter.lastModified);
             <div class="animate flex items-center gap-1.5">
               <div class="text-sm">{t("blog.post.lastUpdated")}: </div>
               <div class="text-sm">
-                <FormattedDate date={lastModified} lastUpdatedFormat={true} />
+                <FormattedDate date={lastModified} dateFormat={dateFormat} />
               </div>
             </div>
           )
