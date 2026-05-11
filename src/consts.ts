@@ -48,7 +48,7 @@ export const I18N: I18n = {
 // Set the image to be used for the link preview card.
 // Image must reside in the "/public" directory.
 // An empty value means no image will be used
-export const PREVIEW_IMAGE : string = ""
+export const PREVIEW_IMAGE: string = "";
 
 export const HOME: Metadata = {
   TITLE: "Home",

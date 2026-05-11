@@ -5,9 +5,11 @@ import ThemeSwitcher from "./ThemeSwitcher.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromPath, useTranslations } from "@/i18n/utils";
 import { SITE } from "@consts";
+import { I18N } from "@consts";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
+const langCount = Object.entries(I18N.LANGUAGES).length;
 ---
 
 <nav
@@ -115,8 +117,12 @@ const t = useTranslations(lang);
 
       <div class="flex items-center gap-4">
         <ThemeSwitcher />
-        <span class="text-neutral-300 dark:text-neutral-700">|</span>
-        <LanguagePicker />
+        {
+          langCount > 1 && (
+            <span class="text-neutral-300 dark:text-neutral-700">|</span>
+            <LanguagePicker />
+          )
+        }
       </div>
     </div>
   </div>

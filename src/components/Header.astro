@@ -6,9 +6,11 @@ import MobileMenu from "./MobileMenu.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromPath, useTranslations } from "@/i18n/utils";
 import { SITE } from "@consts";
+import { I18N } from "@consts";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
+const langCount = Object.entries(I18N.LANGUAGES).length;
 ---
 
 <header>
@@ -61,9 +63,13 @@ const t = useTranslations(lang);
           >
           <span>&nbsp;{t("nav.search")}</span>
         </button>
-        <div class="hidden sm:inline-block">
-          <LanguagePicker />
-        </div>
+        {
+          langCount > 1 && (
+            <div class="hidden sm:inline-block">
+              <LanguagePicker />
+            </div>
+          )
+        }
         <MobileMenu />
       </nav>
     </div>
