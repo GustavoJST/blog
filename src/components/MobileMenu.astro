@@ -119,8 +119,10 @@ const langCount = Object.entries(I18N.LANGUAGES).length;
         <ThemeSwitcher />
         {
           langCount > 1 && (
-            <span class="text-neutral-300 dark:text-neutral-700">|</span>
-            <LanguagePicker />
+            <>
+              <span class="text-neutral-300 dark:text-neutral-700">|</span>
+              <LanguagePicker />
+            </>
           )
         }
       </div>
