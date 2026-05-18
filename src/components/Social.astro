@@ -1,12 +1,12 @@
 ---
-import { SITE,  SOCIALS } from "@consts";
+import { SITE, SOCIALS } from "@consts";
 import Link from "@components/Link.astro";
 ---
 
 <ul class="not-prose flex flex-wrap gap-2 max-sm:hidden">
   {
     SOCIALS.map((SOCIAL) => (
-      <li class="flex gap-x-2 text-nowrap ">
+      <li class="flex gap-x-2 text-nowrap">
         <Link
           href={SOCIAL.HREF}
           external
@@ -19,10 +19,7 @@ import Link from "@components/Link.astro";
     ))
   }
   <li class="line-clamp-1">
-    <Link
-      href={`mailto:${SITE.EMAIL}`}
-      aria-label={`Email ${SITE.TITLE}`}
-    >
+    <Link href={`mailto:${SITE.EMAIL}`} aria-label={`Email ${SITE.TITLE}`}>
       {SITE.EMAIL}
     </Link>
   </li>
@@ -45,10 +42,7 @@ import Link from "@components/Link.astro";
   }
   <li class="line-clamp-1">
     <span>•</span>
-    <Link
-      href={`mailto:${SITE.EMAIL}`}
-      aria-label={`Email ${SITE.TITLE}`}
-    >
+    <Link href={`mailto:${SITE.EMAIL}`} aria-label={`Email ${SITE.TITLE}`}>
       {SITE.EMAIL}
     </Link>
   </li>
