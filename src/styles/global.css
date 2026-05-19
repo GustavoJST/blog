@@ -74,6 +74,24 @@
 }
 
 @layer utilities {
+  /* ----- Override tailwind typography inline code style ----- */
+  /* Light mode colors for inline code */
+  article :not(pre) > code {
+    @apply bg-neutral-300/60 text-red-600 px-1.5 py-0.5 rounded-md;
+    font-weight: inherit;
+  }
+
+  /* Dark mode colors for inline code */
+  .dark article :not(pre) > code {
+    @apply bg-neutral-800/80 text-red-400;
+  }
+
+  article :not(pre) > code::before,
+  article :not(pre) > code::after {
+    content: none;
+  }
+  /* ---------------------------------------------------------- */
+
   article a {
     @apply font-sans text-current underline underline-offset-[3px];
     @apply decoration-black/30 dark:decoration-white/30;
