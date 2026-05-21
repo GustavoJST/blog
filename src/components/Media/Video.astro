@@ -1,0 +1,34 @@
+---
+interface Props {
+  src: string;
+  height?: number;
+  type?: string;
+  rounded?: boolean;
+}
+
+const {
+  src,
+  height = "auto",
+  type = "video/mp4",
+  rounded = true,
+} = Astro.props;
+---
+
+<figure>
+  <video
+    width="100%"
+    height={height}
+    controls
+    class={rounded ? "rounded-md" : ""}
+  >
+    <source src={src} type={type} />
+  </video>
+
+  {
+    Astro.slots.has("default") && (
+      <figcaption class="mt-1.5 [&>p]:inline">
+        <slot />
+      </figcaption>
+    )
+  }
+</figure>
