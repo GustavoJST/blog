@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/bigger-picture.css";
 import { ClientRouter } from "astro:transitions";
 import { PREVIEW_IMAGE } from "@consts";
 
@@ -290,4 +291,114 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
   document.addEventListener("DOMContentLoaded", () => init());
   document.addEventListener("astro:after-swap", () => init());
   preloadTheme();
+</script>
+
+<script>
+  import BiggerPicture from "bigger-picture";
+
+  let bp: any;
+
+  function initBiggerPicture() {
+    bp = BiggerPicture({
+      target: document.body,
+    });
+
+    const imageLinks = document.querySelectorAll(".bp-figure > a");
+    for (let link of imageLinks) {
+      link.addEventListener("click", openGallery);
+    }
+  }
+
+  function openGallery(e: Event) {
+    e.preventDefault();
+
+    bp.open({
+      items: document.querySelectorAll(".bp-figure > a"),
+      el: e.currentTarget,
+      onOpen: () => initCaptionBehaviour(),
+    });
+  }
+
+  document.addEventListener("astro:page-load", initBiggerPicture);
+
+  function initCaptionBehaviour() {
+    const hoverZone = document.querySelector(".bp-cap");
+    const caption = document.querySelector(".bp-cap p");
+
+    if (!caption || !hoverZone) return;
+
+    let hideTimer: NodeJS.Timeout;
+
+    const isDesktop = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+
+    // Reset state on open
+    caption.classList.remove("bp-cap-is-hidden");
+
+    if (isDesktop) {
+      // Desktop logic (Hover)
+      let isHovering = false;
+
+      function startHideTimer(caption: Element) {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => {
+          if (!isHovering) caption.classList.add("bp-cap-is-hidden");
+        }, 3000);
+      }
+
+      function revealCaption(caption: Element) {
+        caption.classList.remove("bp-cap-is-hidden");
+        clearTimeout(hideTimer);
+      }
+
+      function maybeHide(caption: Element) {
+        isHovering = false;
+        hideTimer = setTimeout(() => {
+          if (!isHovering) caption.classList.add("bp-cap-is-hidden");
+        }, 300);
+      }
+
+      hoverZone.addEventListener("mouseenter", () => {
+        isHovering = true;
+        revealCaption(caption);
+      });
+
+      hoverZone.addEventListener("mouseleave", () => maybeHide(caption));
+
+      caption.addEventListener("mouseenter", () => {
+        isHovering = true;
+        revealCaption(caption);
+      });
+
+      caption.addEventListener("mouseleave", () => maybeHide(caption));
+
+      startHideTimer(caption);
+    } else {
+      // Mobile logic (Tap to Toggle)
+      // Auto-hide after 2 seconds initially so the user knows the caption can be hidden
+      hideTimer = setTimeout(() => {
+        caption.classList.add("bp-cap-is-hidden");
+      }, 2000);
+
+      hoverZone.addEventListener("click", (e) => {
+        // Guard against link clicks
+        const clickedElement = e.target as HTMLElement;
+        if (clickedElement.closest("a")) {
+          return;
+        }
+
+        // Guard against text selection/copying
+        const selection = window.getSelection();
+        if (selection && selection.toString().length > 0) {
+          return;
+        }
+
+        // Cancel the initial auto-hide timer if tapped too early
+        clearTimeout(hideTimer);
+
+        caption.classList.toggle("bp-cap-is-hidden");
+      });
+    }
+  }
 </script>

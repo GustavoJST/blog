@@ -44,6 +44,7 @@
   html,
   body {
     @apply size-full;
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -174,3 +175,65 @@ pre:focus-within .copy-code {
 .copy-code:active {
   @apply scale-90 transition-transform;
 }
+
+
+/* -------------------- bigger-picture style override --------------------- */
+
+.bp-cap {
+}
+
+/* Paragraph spacing */
+.bp-cap p {
+  @apply inline;
+  @apply bg-neutral-100/90 dark:bg-neutral-900/90;
+  @apply text-black/75 dark:text-white/75;
+  @apply border border-black/10 dark:border-white/10;
+  @apply text-sm leading-relaxed;
+  @apply rounded-lg;
+  @apply shadow-lg;
+  padding-inline: 8px;
+  padding-block: 5px;
+}
+
+/* Links */
+.bp-cap p a {
+  @apply underline underline-offset-[3px];
+  @apply decoration-black/40 dark:decoration-white/30;
+  @apply transition-colors duration-300;
+  color: inherit;
+}
+
+/* Links hover */
+.bp-cap p a:hover {
+  @apply text-black dark:text-white;
+  @apply decoration-black/60 dark:decoration-white/60;
+}
+
+/* Inline code styling */
+.bp-cap :not(pre) > code {
+  @apply bg-neutral-400/45 text-red-600;
+  @apply dark:bg-neutral-800/80 dark:text-red-400;
+  @apply px-1.5 py-0.5 rounded-md;
+  font-weight: inherit;
+}
+
+.bp-cap code::before,
+.bp-cap code::after {
+  content: none;
+}
+
+/* Show/hide image caption transitions */
+.bp-cap p {
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s ease;
+
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.bp-cap p.bp-cap-is-hidden {
+  transform: translateY(85%);
+  opacity: 0.5;
+}
+/* ------------------------------------------------------------------------ */
