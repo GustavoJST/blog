@@ -293,7 +293,9 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
   preloadTheme();
 </script>
 
+
 <script>
+  // bigger-picture library and custom caption behaviour
   import BiggerPicture from "bigger-picture";
 
   let bp: any;
@@ -400,4 +402,16 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
       });
     }
   }
+</script>
+
+<script>
+  // astro:page-load fires after every navigation (including initial load)
+  // This forces the browser to re-fetch <source> elements that View Transitions
+  // silently swapped in without triggering a load.
+  // Fixes a bug where videos would not be loaded after a transition swap.
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll("video").forEach((video) => {
+      video.load();
+    });
+  });
 </script>
