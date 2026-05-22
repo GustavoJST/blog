@@ -304,17 +304,16 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
     });
 
     const imageLinks = document.querySelectorAll(".bp-figure > a");
-    for (let link of imageLinks) {
-      link.addEventListener("click", openGallery);
+    for (const link of imageLinks) {
+      link.addEventListener("click", (e) => openGallery(e, link));
     }
   }
 
-  function openGallery(e: Event) {
+  function openGallery(e: Event, link: Element) {
     e.preventDefault();
 
     bp.open({
-      items: document.querySelectorAll(".bp-figure > a"),
-      el: e.currentTarget,
+      items: [link], // only the clicked image
       onOpen: () => initCaptionBehaviour(),
     });
   }
