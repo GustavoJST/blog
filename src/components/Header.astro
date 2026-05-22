@@ -13,7 +13,7 @@ const t = useTranslations(lang);
 const langCount = Object.entries(I18N.LANGUAGES).length;
 ---
 
-<header>
+<header transition:persist="header">
   <Container>
     <div class="flex flex-wrap justify-between gap-y-2">
       <Link href={getRelativeLocaleUrl(lang)} underline={false}>
