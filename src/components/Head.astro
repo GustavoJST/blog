@@ -309,7 +309,8 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
     bp.open({
       items: [link], // only the clicked image
       onOpen: () => initCaptionBehaviour(),
-      scale: 0.95
+      scale: 0.95,
+      noPinch: (container: Element) => container.clientWidth < 800
     });
   }
 
