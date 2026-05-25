@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import "../styles/bigger-picture.css";
+import PageFind from "./PageFind.astro";
 import { ClientRouter } from "astro:transitions";
 import { PREVIEW_IMAGE } from "@consts";
 
@@ -13,7 +14,8 @@ import "@fontsource/geist-sans/600.css";
 import "@fontsource/geist-sans/700.css";
 import "@fontsource/geist-sans/800.css";
 import "@fontsource/geist-sans/900.css";
-import "@fontsource-variable/geist-mono"
+import "@fontsource-variable/geist/wght.css";
+import "@fontsource-variable/geist-mono";
 
 interface Props {
   title: string;
@@ -59,10 +61,6 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
-
-<!-- PageFind -->
-<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
-<script is:inline src="/pagefind/pagefind-ui.js"></script>
 
 <ClientRouter />
 
@@ -202,8 +200,10 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
 
     if (dark) {
       document.documentElement.classList.add("dark");
+      document.documentElement.dataset.pfTheme = "dark"; // Pagefind theme attribute (data-pf-theme)
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.dataset.pfTheme = "light"; // Pagefind theme attribute (data-pf-theme)
     }
 
     window.getComputedStyle(css).opacity;
@@ -285,6 +285,12 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
   preloadTheme();
 </script>
 
+<!-- Pagefind -->
+<script>
+  import '@pagefind/component-ui';
+  import '@pagefind/component-ui/css';
+</script>
+<PageFind />
 
 <script>
   // bigger-picture library and custom caption behaviour
@@ -310,7 +316,7 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
       items: [link], // only the clicked image
       onOpen: () => initCaptionBehaviour(),
       scale: 0.95,
-      noPinch: (container: Element) => container.clientWidth < 800
+      noPinch: (container: Element) => container.clientWidth < 800,
     });
   }
 

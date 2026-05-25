@@ -13,7 +13,7 @@ const t = useTranslations(lang);
 const langCount = Object.entries(I18N.LANGUAGES).length;
 ---
 
-<header transition:persist="header">
+<header>
   <Container>
     <div class="flex flex-wrap justify-between gap-y-2">
       <Link href={getRelativeLocaleUrl(lang)} underline={false}>
@@ -47,6 +47,7 @@ const langCount = Object.entries(I18N.LANGUAGES).length;
         <button
           id="magnifying-glass"
           aria-label={t("nav.search")}
+          aria-keyshortcuts="Control+k"
           class="flex items-center rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
         >
           <svg
@@ -62,6 +63,7 @@ const langCount = Object.entries(I18N.LANGUAGES).length;
               fill="currentColor"></path></svg
           >
           <span>&nbsp;{t("nav.search")}</span>
+          <pagefind-modal></pagefind-modal>
         </button>
         {
           langCount > 1 && (
