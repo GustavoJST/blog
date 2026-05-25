@@ -2,6 +2,8 @@
 import Head from "@/components/Head.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import PagefindConfig from "astro-pagefind/components/PagefindConfig.astro";
+import PageFind from "@/components/PageFind.astro";
 import { SITE } from "@/consts";
 
 type Props = {
@@ -32,5 +34,7 @@ const lang = Astro.currentLocale;
       <slot />
     </main>
     <Footer />
+  <PagefindConfig/>
+  <PageFind />
   </body>
 </html>

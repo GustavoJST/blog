@@ -1,8 +1,6 @@
 ---
 import "../styles/global.css";
 import "../styles/bigger-picture.css";
-import PageFind from "@/components/PageFind.astro";
-import PagefindConfig from "astro-pagefind/components/PagefindConfig.astro";
 import { ClientRouter } from "astro:transitions";
 import { PREVIEW_IMAGE } from "@/consts";
 
@@ -285,10 +283,6 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
   document.addEventListener("astro:after-swap", () => init());
   preloadTheme();
 </script>
-
-<!-- Pagefind -->
-<PagefindConfig/>
-<PageFind />
 
 <script>
   // bigger-picture library and custom caption behaviour
