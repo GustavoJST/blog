@@ -9,9 +9,10 @@ import { SITE } from "@/consts";
 type Props = {
   title: string;
   description: string;
+  pagefindIndex?: boolean;
 };
 
-const { title, description } = Astro.props;
+const { title, description, pagefindIndex = false } = Astro.props;
 const lang = Astro.currentLocale;
 ---
 
@@ -30,7 +31,7 @@ const lang = Astro.currentLocale;
       </style>
     </noscript>
     <Header />
-    <main>
+    <main data-pagefind-body={pagefindIndex ? true : undefined}>
       <slot />
     </main>
     <Footer />

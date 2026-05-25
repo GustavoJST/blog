@@ -37,13 +37,13 @@ const toc = buildToc(headings);
   headings.length > 0 && (
     <>
       {/* Inline TOC: always visible, hidden at 2xl when side TOC is active */}
-      <div class:list={["animate mb-8", isSide ? "block 2xl:hidden" : "block"]}>
+      <div data-pagefind-ignore class:list={["animate mb-8", isSide ? "block 2xl:hidden" : "block"]}>
         <TableOfContentsDetails toc={toc} title={t("toc.title")} />
       </div>
 
       {/* Side TOC: only rendered and shown at 2xl when ENABLE_SIDE_TOC is true */}
       {isSide && (
-        <aside class="absolute top-0 left-full z-10 ml-8 hidden h-full w-80 2xl:block">
+        <aside data-pagefind-ignore class="absolute top-0 left-full z-10 ml-8 hidden h-full w-80 2xl:block">
           <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
             <TableOfContentsDetails toc={toc} title={t("toc.title")} />
           </div>

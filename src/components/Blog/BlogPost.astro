@@ -74,40 +74,43 @@ const dateFormat: Intl.DateTimeFormatOptions = {
   addHeadingLinks();
 </script>
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout title={post.data.title} description={post.data.description} pagefindIndex={true}>
   <Container>
-    <div class="animate">
+    <div class="animate" data-pagefind-ignore>
       <BackToPrevious href={getRelativeLocaleUrl(lang, "blog")}
         >{t("blog.post.back")}</BackToPrevious
       >
     </div>
     <div class="my-10 space-y-1">
-      <div class="animate flex items-center gap-1.5">
-        <div class="font-base text-sm">
-          <FormattedDate date={post.data.date} />
+      <div data-pagefind-ignore>
+        <div class="animate flex items-center gap-1.5">
+          <div class="font-base text-sm">
+            <FormattedDate date={post.data.date} />
+          </div>
+          &bull;
+          {
+            post.body && (
+              <div class="font-base text-sm">
+                {readingTime(post.body)} {t("readingTime")}
+              </div>
+            )
+          }
         </div>
-        &bull;
+        {/* Conditionally render based on commit count */}
         {
-          post.body && (
-            <div class="font-base text-sm">
-              {readingTime(post.body)} {t("readingTime")}
-            </div>
-          )
+          SITE.ENABLE_BLOG_LAST_UPDATED &&
+            remarkPluginFrontmatter.commitCount > 1 && (
+              <div class="animate flex items-center gap-1.5">
+                <div class="text-sm">{t("blog.post.updatedAt")}: </div>
+                <div class="text-sm">
+                  <FormattedDate date={lastModified} dateFormat={dateFormat} />
+                </div>
+              </div>
+            )
         }
       </div>
-      {/* Conditionally render based on commit count */}
-      {
-        SITE.ENABLE_BLOG_LAST_UPDATED &&
-          remarkPluginFrontmatter.commitCount > 1 && (
-            <div class="animate flex items-center gap-1.5">
-              <div class="text-sm">{t("blog.post.updatedAt")}: </div>
-              <div class="text-sm">
-                <FormattedDate date={lastModified} dateFormat={dateFormat} />
-              </div>
-            </div>
-          )
-      }
       <h1
+        data-pagefind-meta="title"
         class="animate text-3xl font-semibold break-words text-black dark:text-white"
       >
         {post.data.title}
