@@ -1,5 +1,5 @@
 import { ui } from "./ui";
-import { I18N } from "@consts";
+import { I18N } from "@/consts";
 
 const defaultLang = I18N.DEFAULT_LANGUAGE as keyof typeof ui;
 

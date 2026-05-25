@@ -1,9 +1,10 @@
 ---
 import "../styles/global.css";
 import "../styles/bigger-picture.css";
-import PageFind from "./PageFind.astro";
+import PageFind from "@/components/PageFind.astro";
+import PagefindConfig from "astro-pagefind/components/PagefindConfig.astro";
 import { ClientRouter } from "astro:transitions";
-import { PREVIEW_IMAGE } from "@consts";
+import { PREVIEW_IMAGE } from "@/consts";
 
 import "@fontsource/geist-sans/100.css";
 import "@fontsource/geist-sans/200.css";
@@ -286,10 +287,7 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
 </script>
 
 <!-- Pagefind -->
-<script>
-  import "@pagefind/component-ui";
-  import "@pagefind/component-ui/css";
-</script>
+<PagefindConfig/>
 <PageFind />
 
 <script>

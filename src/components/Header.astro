@@ -1,12 +1,12 @@
 ---
-import Container from "@components/Container.astro";
-import Link from "@components/Link.astro";
-import LanguagePicker from "./LanguagePicker.astro";
-import MobileMenu from "./MobileMenu.astro";
+import Container from "@/components/Container.astro";
+import Link from "@/components/Link.astro";
+import LanguagePicker from "@/components/LanguagePicker.astro";
+import MobileMenu from "@/components/MobileMenu.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromPath, useTranslations } from "@/i18n/utils";
-import { SITE } from "@consts";
-import { I18N } from "@consts";
+import { SITE } from "@/consts";
+import { I18N } from "@/consts";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);

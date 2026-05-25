@@ -1,6 +1,6 @@
 ---
-import BlogPost from "@components/Blog/BlogPost.astro";
-import { getBlogPaths } from "@lib/utils";
+import BlogPost from "@/components/Blog/BlogPost.astro";
+import { getBlogPaths } from "@/lib/utils";
 
 export async function getStaticPaths() {
   return await getBlogPaths("pt-br");

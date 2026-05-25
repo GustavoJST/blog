@@ -1,18 +1,18 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/Container.astro";
-import FormattedDate from "@components/FormattedDate.astro";
-import { readingTime } from "@lib/utils";
-import BackToPrevious from "@components/BackToPrevious.astro";
-import PostNavigation from "@components/PostNavigation.astro";
-import TableOfContents from "@components/TOC/TableOfContents.astro";
-import Giscus from "@components/Giscus.astro";
-import { SITE } from "@consts";
-import { I18N } from "@consts";
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/Container.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import { readingTime } from "@/lib/utils";
+import BackToPrevious from "@/components/BackToPrevious.astro";
+import PostNavigation from "@/components/PostNavigation.astro";
+import TableOfContents from "@/components/TOC/TableOfContents.astro";
+import Giscus from "@/components/Giscus.astro";
+import { SITE } from "@/consts";
+import { I18N } from "@/consts";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLangFromPath, useTranslations } from "@i18n/utils";
-import HorizontalRule from "@components/HorizontalRule.astro";
+import { getLangFromPath, useTranslations } from "@/i18n/utils";
+import HorizontalRule from "@/components/HorizontalRule.astro";
 
 interface Props {
   post: CollectionEntry<"blog">;

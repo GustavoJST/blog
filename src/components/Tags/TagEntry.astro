@@ -1,11 +1,11 @@
 ---
 import { type CollectionEntry } from "astro:content";
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/Container.astro";
-import ArrowCard from "@components/ArrowCard.astro";
-import BackToPrevious from "@components/BackToPrevious.astro";
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/Container.astro";
+import ArrowCard from "@/components/ArrowCard.astro";
+import BackToPrevious from "@/components/BackToPrevious.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLangFromPath, useTranslations } from "@i18n/utils";
+import { getLangFromPath, useTranslations } from "@/i18n/utils";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);

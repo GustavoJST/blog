@@ -12,6 +12,7 @@ const {
     month: "short",
     day: "2-digit",
     year: "numeric",
+    timeZone: "utc"
   },
 } = Astro.props;
 const lang = getLangFromPath(Astro.url.pathname);

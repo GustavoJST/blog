@@ -1,7 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { I18N } from "@consts";
-import { getLangFromPath } from "@i18n/utils";
+import { I18N } from "@/consts";
+import { getLangFromPath } from "@/i18n/utils";
 
 const locales = I18N.LANGUAGES;
 const currentLang = getLangFromPath(Astro.url.pathname);

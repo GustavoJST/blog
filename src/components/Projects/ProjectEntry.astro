@@ -1,15 +1,15 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/Container.astro";
-import FormattedDate from "@components/FormattedDate.astro";
-import { readingTime } from "@lib/utils";
-import BackToPrevious from "@components/BackToPrevious.astro";
-import Link from "@components/Link.astro";
-import TableOfContents from "@components/TOC/TableOfContents.astro";
-import { getLangFromPath, useTranslations } from "@i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/Container.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import { readingTime } from "@/lib/utils";
+import BackToPrevious from "@/components/BackToPrevious.astro";
+import Link from "@/components/Link.astro";
+import TableOfContents from "@/components/TOC/TableOfContents.astro";
+import { getLangFromPath, useTranslations } from "@/i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import HorizontalRule from "@components/HorizontalRule.astro";
+import HorizontalRule from "@/components/HorizontalRule.astro";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);

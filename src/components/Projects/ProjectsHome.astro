@@ -1,10 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/Container.astro";
-import ArrowCard from "@components/ArrowCard.astro";
-import { getLangFromPath, useTranslations } from "@i18n/utils";
-import { PROJECTS } from "@consts";
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/Container.astro";
+import ArrowCard from "@/components/ArrowCard.astro";
+import { getLangFromPath, useTranslations } from "@/i18n/utils";
+import { PROJECTS } from "@/consts";
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);

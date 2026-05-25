@@ -1,6 +1,7 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
-import { I18N } from "@consts";
+import { I18N } from "@/consts";
 
 type Language = keyof typeof I18N.LANGUAGES;
 const LANGS = Object.keys(I18N.LANGUAGES) as Language[];
