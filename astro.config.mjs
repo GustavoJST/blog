@@ -34,7 +34,10 @@ export default defineConfig({
       filter: (page) => {
         const path = new URL(page).pathname;
         for (const pattern of SITEMAP_EXCLUDED_PATTERNS) {
-          if (path.startsWith(pattern) || path.match(new RegExp(`^/[^/]+${pattern}(/|$)`))) {
+          if (
+            path.startsWith(pattern) ||
+            path.match(new RegExp(`^/[^/]+${pattern}(/|$)`))
+          ) {
             return false;
           }
         }

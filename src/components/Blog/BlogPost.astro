@@ -74,7 +74,11 @@ const dateFormat: Intl.DateTimeFormatOptions = {
   addHeadingLinks();
 </script>
 
-<Layout title={post.data.title} description={post.data.description} pagefindIndex={true}>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  pagefindIndex={true}
+>
   <Container>
     <div class="animate" data-pagefind-ignore>
       <BackToPrevious href={getRelativeLocaleUrl(lang, "blog")}
