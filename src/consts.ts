@@ -10,6 +10,10 @@ export const SITE: Site = {
   ENABLE_SIDE_TOC: true,
   // Enable a "last updated" field on blog posts that have more than one commit
   // Implemented using a remark plugin: https://docs.astro.build/en/recipes/modified-time/
+  // IMPORTANT: When deploying via CI (e.g. GitHub Actions), a full git history
+  // (fetch-depth: 0) must be available at build time for the plugin to work.
+  // A shallow clone will cause every file to appear as having a single commit,
+  // hiding the "last updated" field entirely.
   ENABLE_BLOG_LAST_UPDATED: true,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
   NUM_POSTS_ON_HOMEPAGE: 5,
