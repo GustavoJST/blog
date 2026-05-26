@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import { I18N } from "./src/consts";
+import { I18N, SITEMAP_EXCLUDED_PATTERNS } from "./src/consts";
 import { remarkModifiedTime } from "./src/lib/remark-modifed-time.mjs";
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
@@ -30,6 +30,15 @@ export default defineConfig({
         // All urls that don't contain `es` or `fr` after `https://example.com/` will be treated as default locale, i.e. `en`
         defaultLocale: I18N.DEFAULT_LANGUAGE,
         locales: sitemapLocales,
+      },
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        for (const pattern of SITEMAP_EXCLUDED_PATTERNS) {
+          if (path.startsWith(pattern) || path.match(new RegExp(`^/[^/]+${pattern}(/|$)`))) {
+            return false;
+          }
+        }
+        return true;
       },
     }),
     mdx(),

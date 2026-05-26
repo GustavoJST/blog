@@ -43,6 +43,10 @@ export const I18N: I18n = {
   DEFAULT_LANGUAGE: "en",
 };
 
+export const SITEMAP_EXCLUDED_PATTERNS: string[] = [
+  ...(!SITE.ENABLE_PROJECTS ? ["/projects"] : []),
+];
+
 // Link/social preview card configuration
 // ------------------------------------------------------------------------------
 // Set the image to be used for the link preview card.
