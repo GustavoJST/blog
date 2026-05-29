@@ -290,7 +290,7 @@ const { title, description, image = `/${PREVIEW_IMAGE}` } = Astro.props;
     document.querySelectorAll("hr").forEach((hr) => {
       const div = document.createElement("div");
       div.className =
-        "h-px w-full my-12 bg-gradient-to-r from-transparent via-black/25 to-transparent dark:via-white/20";
+        "h-px w-full my-12 bg-linear-to-r from-transparent via-black/25 to-transparent dark:via-white/20";
       hr.replaceWith(div);
     });
   }
