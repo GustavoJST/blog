@@ -17,6 +17,12 @@ export function remarkModifiedTime() {
         countResult.toString().trim(),
         10,
       );
+      const commitfullHash = execSync(
+        `git log -1 --pretty="format:%H" "${filepath}"`,
+      )
+        .toString()
+        .trim();
+      file.data.astro.frontmatter.commitFullHash = commitfullHash;
     } catch (e) {
       file.data.astro.frontmatter.commitCount = 1;
     }

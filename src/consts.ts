@@ -13,21 +13,25 @@ export const SITE: Site = {
   // IMPORTANT: When deploying via CI (e.g. GitHub Actions), a full git history
   // (fetch-depth: 0) must be available at build time for the plugin to work.
   // A shallow clone will cause every file to appear as having a single commit,
-  // hiding the "last updated" field entirely.
+  // hiding the "last updated" field entirely
   ENABLE_BLOG_LAST_UPDATED: true,
+  // Adds a link to the "Updated at" text on blog posts,
+  // pointing to the latest Git commit for the post's source file
+  ENABLE_BLOG_LAST_UPDATED_COMMIT_LINK: true,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
   NUM_POSTS_ON_HOMEPAGE: 5,
   // Enables displaying the website's latest build timestamp in the footer,
   // along with a link to the commit associated with that build
   ENABLE_FOOTER_LAST_BUILD: true,
-  // Base URL used to generate the link to the commit associated with the latest build
+  // Base URL used to generate links to commits on the remote repo of your choice.
+  // Used by ENABLE_BLOG_LAST_UPDATED_COMMIT_LINK and ENABLE_FOOTER_LAST_BUILD configurations.
   //
   // Examples:
   // GitHub: https://github.com/GustavoJST/blog/commit
   // GitLab: https://gitlab.rnp.br/[group]/[project]/-/commit
   //
-  // Do not include a trailing slash in the URL
-  FOOTER_LAST_BUILD_COMMIT_URL: "https://github.com/GustavoJST/blog/commit",
+  // IMPORTANT: Do not include a trailing slash in the URL
+  GIT_REPO_COMMIT_URL: "https://github.com/GustavoJST/blog/commit",
 };
 
 export const I18N: I18n = {

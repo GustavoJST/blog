@@ -1,17 +1,18 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import Container from "@/components/Container.astro";
-import FormattedDate from "@/components/FormattedDate.astro";
 import { readingTime } from "@/lib/utils";
-import BackToPrevious from "@/components/BackToPrevious.astro";
-import PostNavigation from "@/components/PostNavigation.astro";
-import TableOfContents from "@/components/TOC/TableOfContents.astro";
-import Giscus from "@/components/Giscus.astro";
 import { SITE } from "@/consts";
 import { I18N } from "@/consts";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromPath, useTranslations } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/Container.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import BackToPrevious from "@/components/BackToPrevious.astro";
+import PostNavigation from "@/components/PostNavigation.astro";
+import TableOfContents from "@/components/TOC/TableOfContents.astro";
+import Link from "@/components/Link.astro";
+import Giscus from "@/components/Giscus.astro";
 import HorizontalRule from "@/components/HorizontalRule.astro";
 
 interface Props {
@@ -40,6 +41,7 @@ const prevPost = posts[postIndex - 1];
 
 const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const lastModified: Date = new Date(remarkPluginFrontmatter.lastModified);
+const commitfullHash = remarkPluginFrontmatter.commitFullHash;
 
 const dateFormat: Intl.DateTimeFormatOptions = {
   month: "short",
@@ -112,7 +114,21 @@ const dateFormat: Intl.DateTimeFormatOptions = {
               <div class="animate flex items-center gap-1.5">
                 <div class="text-sm">{t("blog.post.updatedAt")}: </div>
                 <div class="text-sm">
-                  <FormattedDate date={lastModified} dateFormat={dateFormat} />
+                  {SITE.ENABLE_BLOG_LAST_UPDATED ? (
+                    <Link
+                      href={`${SITE.GIT_REPO_COMMIT_URL}/${commitfullHash}`}
+                    >
+                      <FormattedDate
+                        date={lastModified}
+                        dateFormat={dateFormat}
+                      />
+                    </Link>
+                  ) : (
+                    <FormattedDate
+                      date={lastModified}
+                      dateFormat={dateFormat}
+                    />
+                  )}
                 </div>
               </div>
             )

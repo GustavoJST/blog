@@ -37,7 +37,7 @@ const dateFormat: Intl.DateTimeFormatOptions = {
   {t("footer.lastBuild")}: <FormattedDate
     date={new Date(commitDate)}
     dateFormat={dateFormat}
-  />(<Link href=`${SITE.FOOTER_LAST_BUILD_COMMIT_URL}/${fullHash}`
+  />(<Link href=`${SITE.GIT_REPO_COMMIT_URL}/${fullHash}`
     >{abbreviatedHash}</Link
   >)
 </div>

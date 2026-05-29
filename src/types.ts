@@ -8,8 +8,9 @@ export type Site = {
   ENABLE_PROJECTS: boolean;
   ENABLE_SIDE_TOC: boolean;
   ENABLE_BLOG_LAST_UPDATED: boolean;
+  ENABLE_BLOG_LAST_UPDATED_COMMIT_LINK: boolean;
   ENABLE_FOOTER_LAST_BUILD: boolean;
-  FOOTER_LAST_BUILD_COMMIT_URL: string;
+  GIT_REPO_COMMIT_URL: string;
 };
 
 export type LanguageConfig = {
