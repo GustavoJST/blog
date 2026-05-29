@@ -24,7 +24,12 @@ const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
 
 const posts = (await getCollection("blog"))
-  .filter((p) => !p.data.draft && p.data.lang === post.data.lang)
+  .filter(
+    (p) =>
+      !p.data.draft &&
+      p.data.lang === post.data.lang &&
+      post.data.date <= new Date(),
+  )
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const postIndex = posts.findIndex((p) => p.data.url === post.data.url);

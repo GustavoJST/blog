@@ -10,7 +10,12 @@ const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
 
 const projects = (await getCollection("projects"))
-  .filter((project) => !project.data.draft && project.data.lang == lang)
+  .filter(
+    (project) =>
+      !project.data.draft &&
+      project.data.lang == lang &&
+      project.data.date <= new Date(),
+  )
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 

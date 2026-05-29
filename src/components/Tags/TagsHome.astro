@@ -10,7 +10,7 @@ const t = useTranslations(lang);
 
 const posts = await getCollection(
   "blog",
-  ({ data }) => !data.draft && data.lang == lang,
+  ({ data }) => !data.draft && data.lang == lang && data.date <= new Date(),
 );
 const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
 ---

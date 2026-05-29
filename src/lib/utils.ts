@@ -15,7 +15,12 @@ export function readingTime(html: string) {
 
 export async function getBlogPaths(lang: string) {
   const posts = (await getCollection("blog"))
-    .filter((post) => !post.data.draft && post.data.lang === lang)
+    .filter(
+      (post) =>
+        !post.data.draft &&
+        post.data.lang === lang &&
+        post.data.date <= new Date(),
+    )
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return posts.map((post) => {
@@ -28,7 +33,12 @@ export async function getBlogPaths(lang: string) {
 
 export async function getProjectPaths(lang: string) {
   const projects = (await getCollection("projects"))
-    .filter((project) => !project.data.draft && project.data.lang == lang)
+    .filter(
+      (project) =>
+        !project.data.draft &&
+        project.data.lang == lang &&
+        project.data.date <= new Date(),
+    )
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return projects.map((project) => {
@@ -42,7 +52,7 @@ export async function getProjectPaths(lang: string) {
 export async function getTagPaths(lang: string) {
   const posts = await getCollection(
     "blog",
-    ({ data }) => !data.draft && data.lang == lang,
+    ({ data }) => !data.draft && data.lang == lang && data.date <= new Date(),
   );
 
   // Get unique tags

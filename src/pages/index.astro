@@ -13,14 +13,24 @@ import { getLangFromPath } from "@/i18n/utils";
 const lang = getLangFromPath(Astro.url.pathname);
 
 const blog = (await getCollection("blog"))
-  .filter((post) => !post.data.draft && post.data.lang == lang)
+  .filter(
+    (post) =>
+      !post.data.draft &&
+      post.data.lang == lang &&
+      post.data.date <= new Date(),
+  )
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
 
 const projects: CollectionEntry<"projects">[] = (
   await getCollection("projects")
 )
-  .filter((project) => !project.data.draft && project.data.lang == lang)
+  .filter(
+    (project) =>
+      !project.data.draft &&
+      project.data.lang == lang &&
+      project.data.date <= new Date(),
+  )
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
 ---
