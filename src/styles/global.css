@@ -137,6 +137,31 @@ pre.astro-code {
   font-variant-ligatures: none;
 }
 
+/* ------------------- Shiki Transformer Styles -------------------- */
+pre.astro-code .line {
+  display: inline-block;
+  min-width: 100%;
+}
+
+/* Styling for Highlighted lines (// [!code highlight]) */
+pre.astro-code .line.highlighted {
+  @apply bg-neutral-300/40 dark:bg-neutral-600/40;
+  @apply border-l-[3px] border-neutral-500/70;
+}
+
+/* Styling for Diff Remove (// [!code --]) */
+pre.astro-code .line.diff.remove {
+  @apply bg-red-500/15 dark:bg-red-500/20;
+  @apply border-l-[3px] border-red-500/70;
+}
+
+/* Styling for Diff Add (// [!code ++]) */
+pre.astro-code .line.diff.add {
+  @apply bg-emerald-500/15 dark:bg-emerald-500/20;
+  @apply border-l-[3px] border-emerald-500/70;
+}
+/* ----------------------------------------------------------------- */
+
 /* ------- Shiki code block line number ---------- */
 code {
   counter-reset: step;

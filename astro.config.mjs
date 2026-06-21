@@ -5,6 +5,10 @@ import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import pagefind from "astro-pagefind";
 import tailwindcss from "@tailwindcss/vite";
+import {
+  transformerNotationDiff,
+  transformerNotationHighlight
+} from '@shikijs/transformers';
 
 const sitemapLocales = Object.fromEntries(
   Object.entries(I18N.LANGUAGES).map(([key, value]) => [
@@ -53,6 +57,10 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       theme: "css-variables",
+      transformers: [
+        transformerNotationDiff(),
+        transformerNotationHighlight()
+      ],
     },
     remarkPlugins: [remarkModifiedTime],
   },
