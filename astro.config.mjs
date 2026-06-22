@@ -9,6 +9,7 @@ import {
   transformerNotationDiff,
   transformerNotationHighlight
 } from '@shikijs/transformers';
+import { transformerTitle } from "./src/lib/shiki-transformers.mjs";
 
 const sitemapLocales = Object.fromEntries(
   Object.entries(I18N.LANGUAGES).map(([key, value]) => [
@@ -59,7 +60,8 @@ export default defineConfig({
       theme: "css-variables",
       transformers: [
         transformerNotationDiff(),
-        transformerNotationHighlight()
+        transformerNotationHighlight(),
+        transformerTitle()
       ],
     },
     remarkPlugins: [remarkModifiedTime],

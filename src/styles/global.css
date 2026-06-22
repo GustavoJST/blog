@@ -137,7 +137,8 @@ pre.astro-code {
   font-variant-ligatures: none;
 }
 
-/* ------------------- Shiki Transformer Styles -------------------- */
+
+/* ------------------- Shiki Transformer -------------------- */
 pre.astro-code .line {
   display: inline-block;
   min-width: 100%;
@@ -159,6 +160,28 @@ pre.astro-code .line.diff.remove {
 pre.astro-code .line.diff.add {
   @apply bg-emerald-500/15 dark:bg-emerald-500/20;
   @apply border-l-[3px] border-emerald-500/70;
+}
+
+/* Shiki code block title transformer */
+/* Target any code block that has a title attribute */
+pre.astro-code[data-title] {
+  padding-top: 3.5rem; /* Push the code down to make room for the title bar */
+  position: relative;
+}
+
+/* Light mode */
+pre.astro-code[data-title]::before {
+  content: attr(data-title);
+  @apply absolute top-0 left-0 right-0;
+  @apply px-4 py-2 font-sans text-sm font-semibold;
+  @apply border-b border-black/15;
+  @apply bg-neutral-300/70 text-neutral-800;; /* Light mode colors */
+}
+
+/* Dark mode */
+html.dark pre.astro-code[data-title]::before {
+  @apply border-white/20;
+  @apply bg-neutral-800/20 text-neutral-300; /* Dark mode colors */
 }
 /* ----------------------------------------------------------------- */
 
