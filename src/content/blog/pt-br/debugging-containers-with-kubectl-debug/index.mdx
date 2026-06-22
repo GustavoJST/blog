@@ -1,0 +1,363 @@
+---
+title: "Utilizando kubectl debug para debugging de containers"
+description: "Entendendo como funciona o comando e o processo de debug."
+date: "2026-06-21"
+tags: ["kubernetes", "debugging"]
+url: "debugging-containers-with-kubectl-debug"
+lang: "pt-br"
+---
+
+import Video from '@/components/Media/Video.astro'
+import Figure from '@/components/Media/Figure.astro'
+import Callout from "@/components/Callout.astro";
+import debugContainerSpawnPromptImage from '@/blog-assets/debugging-containers-with-kubectl-debug/debug-container-spawn-prompt.png';
+import catEtcNginxConfDebugContainerImage from '@/blog-assets/debugging-containers-with-kubectl-debug/cat-etc-nginx-conf-debug-container.png';
+import psDebugContainerImage from '@/blog-assets/debugging-containers-with-kubectl-debug/ps-debug-container.png';
+import psUserGroupDebugContainerImage from '@/blog-assets/debugging-containers-with-kubectl-debug/ps-user-group-debug-container.png';
+import pstreeDebugContainerImage from '@/blog-assets/debugging-containers-with-kubectl-debug/pstree-debug-container.png';
+import procPidRootLsImage from '@/blog-assets/debugging-containers-with-kubectl-debug/proc-pid-root-ls.png';
+import catNginxConfTargetContainerImage from '@/blog-assets/debugging-containers-with-kubectl-debug/cat-nginx-conf-target-container.png';
+import nginxUnprivilegedDebugContainerSpawnImage from '@/blog-assets/debugging-containers-with-kubectl-debug/nginx-unprivileged-debug-container-spawn.png';
+import psNginxUserGroup101Image from '@/blog-assets/debugging-containers-with-kubectl-debug/ps-nginx-user-group-101.png';
+import cdProcPidRootDeniedImage from '@/blog-assets/debugging-containers-with-kubectl-debug/cd-proc-pid-root-denied.png';
+import debuguserCdProcPidRootSuccessfulImage from '@/blog-assets/debugging-containers-with-kubectl-debug/debuguser-cd-proc-pid-root-successful.png';
+
+
+Kubernetes possui uma feature muito interessante chamada [containers efêmeros](https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/),
+que é um tipo de container que roda temporariamente dentro de um Pod a fim de executar uma ação específica, como troubleshooting iniciado por um usuário.
+
+Como containers efêmeros não são o assunto principal deste post, vamos falar sobre outra função que utiliza este conceito, o `kubectl debug`, e entender como ambos se relacionam, o processo de debug e como funciona o compartilhamento de PIDs entre os containers de um mesmo Pod.
+
+## O que é kubectl debug?
+
+`kubectl debug` é um comando presente no `kubectl` que permite, entre outras coisas, criar um container efêmero dentro de um Pod específico, que irá executar junto com outros containers presentes dentro do Pod.
+Este container efêmero pode compartilhar os mesmos namespaces Linux do container que queremos debugar, como o namespace de rede e PID, embora o suporte para tal dependa do container runtime utilizado (utilizamos o containerd neste post).
+
+Um cenário muito comum da utilização do `kubectl debug` é em ocasiões em que se deseja anexar um shell para debug em um container que roda uma imagem que não possui shell disponível, como no caso das imagens [distroless](https://github.com/GoogleContainerTools/distroless).
+Neste caso, o container efêmero criado se torna uma espécie de porta de entrada para o container, permitindo o debug.
+
+Outro ponto interessante é a possibilidade de escolha da imagem utilizada pelo container efêmero criado pelo `kubectl debug`, o que significa que é possível usar uma imagem leve que contém apenas as ferramentas necessárias para o processo de debug, como um Alpine, BusyBox ou o [netshoot](https://github.com/nicolaka/netshoot) para troubleshooting de rede.
+
+## Utilizando o kubectl debug
+
+Vamos utilizar o YAML abaixo para criar um simples Pod nginx, que será o alvo do comando `kubectl debug` neste exemplo:
+
+```yaml
+# [title: nginx-noshell.yaml]
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-noshell
+  name: nginx-noshell
+  namespace: default
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    command:
+      - /bin/sh
+      - -c
+      - |
+        rm -f /bin/sh /bin/bash
+        exec nginx -g 'daemon off;'
+    resources: {}
+    volumeMounts:
+      - name: nginx-conf
+        mountPath: /etc/nginx
+  volumes:
+    - name: nginx-conf
+      configMap:
+        name: nginx-conf
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: default
+data:
+  nginx.conf: |
+    worker_processes auto;
+
+    error_log /dev/stderr warn;
+
+    pid /run/nginx.pid;
+
+    events {}
+
+    http {
+      server {
+        listen 80;
+        server_name _;
+
+        location / {
+          default_type text/plain;
+          return 200 "Hello World\n";
+        }
+      }
+    }
+```
+
+Neste YAML, o acesso ao Pod via shell será removido através do comando `rm -f /bin/sh /bin/bash` executado durante a inicialização do Pod. Desta forma, a única forma de acessar o Pod será através do container de debug.
+
+Podemos então testar se o Pod está executando corretamente e com o `nginx.conf` customizado, realizando um `kubectl port-forward` e `curl`:
+
+```bash
+kubectl port-forward pod/nginx-noshell 8080:80 &
+curl localhost:8080
+# Hello World
+```
+
+Com o Pod rodando, vamos criar um container de debug utilizando a imagem `alpine:latest` e utilizar o shell `ash`, presente nesta imagem, para permitir nosso acesso:
+
+```bash
+kubectl debug -it nginx-noshell --image=alpine:latest --target=nginx -- ash
+```
+
+Depois de executar o comando, um prompt irá indicar que você estará dentro do container de debug:
+
+<Figure
+  src={debugContainerSpawnPromptImage}
+  alt='Imagem mostrando o output do comando kubectl debug -it nginx-noshell --image=alpine:latest --target=nginx -- ash'
+>
+Prompt indicativo de que o container de debug foi criado com sucesso.
+</Figure>
+
+Podemos também confirmar que o `kubectl debug` criou um container efêmero ao olhar o YAML do Pod:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-noshell
+  name: nginx-noshell
+  namespace: default
+spec:
+  containers:
+  - command:
+    - /bin/sh
+    - -c
+    - |
+      rm -f /bin/sh /bin/bash
+      exec nginx -g 'daemon off;'
+    image: nginx:latest
+    imagePullPolicy: Always
+    name: nginx
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+      - name: nginx-conf
+        mountPath: /etc/nginx/nginx.conf
+        subPath: nginx.conf
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dcjwh
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  # Container efêmero criado pelo `kubectl debug`
+  # [!code highlight:12]
+  ephemeralContainers:
+  - command:
+    - ash
+    image: alpine:latest
+    imagePullPolicy: Always
+    name: debugger-qvcgr
+    resources: {}
+    stdin: true
+    targetContainerName: nginx
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    tty: true
+  restartPolicy: Always
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  ...
+```
+
+Como utilizamos a flag `--target=nginx`, apontando para o container de nome `nginx` presente dentro do Pod `nginx-noshell`,
+o container de debug irá compartilhar o namespace de PID com este container, nos permitindo observar seus processos em execução:
+
+<Figure
+  src={psDebugContainerImage}
+  alt='Imagem mostrando o output do comando ps dentro do container de debug'
+>
+Output do comando `ps` dentro do container de debug. Note que os processos nginx não estão sendo executados no container de debug, e sim no container `nginx`.
+</Figure>
+
+Neste caso, os outros processos nginx que aparecem além do PID 1 são seus filhos. Isso pode ser confirmado através do comando `pstree`:
+
+<Figure
+  src={pstreeDebugContainerImage}
+  alt='Imagem mostrando o output do comando pstree dentro do container de debug'
+>
+Processos filho do PID 1.
+</Figure>
+
+Agora que confirmamos que podemos ver os processos do container `nginx`, vamos verificar se podemos ver o arquivo `nginx.conf` montado no container `nginx`:
+
+<Figure
+  src={catEtcNginxConfDebugContainerImage}
+  alt='Imagem mostrando que o arquivo nginx.conf no filesystem do container de debug não existe'
+>
+</Figure>
+
+Que estranho, mesmo podendo ver os processos do container nginx, por que o arquivo `nginx.conf` não existe? A resposta para isso está no namespace de PID que comentamos mais cedo.
+
+Quando estamos no container de debug, embora compartilhemos o namespace de PID, o filesystem não é compartilhado, ou seja, estamos na verdade no filesystem do container de debug, e não do container alvo.
+
+Como o namespace de PID é compartilhado, podemos acessar o filesystem do container `nginx` através do seu processo, no diretório `/proc/1/root`, onde `1` é o PID do processo raiz nginx que vimos anteriormente:
+
+<Figure
+  src={procPidRootLsImage}
+  alt='Imagem mostrando a diferença entre os diretórios / e /proc/1/root/'
+>
+Note como o comando `ls` no diretório `/proc/1/root` se assemelha ao diretório `/`. A verdade é que quando vemos o diretório `/`, estamos vendo o filesystem da imagem utilizada pelo container de debug, enquanto o `/proc/1/root` corresponde ao diretório `/` no container `nginx`.
+</Figure>
+
+Estando dentro do filesystem do container `nginx`, podemos confirmar a existência do arquivo `nginx.conf`:
+
+<Figure
+  src={catNginxConfTargetContainerImage}
+  alt='Imagem provando que o arquivo nginx.conf está presente no filesystem do container alvo através do /proc/1/root'
+>
+Arquivo `nginx.conf`, montado através de um ConfigMap, presente dentro do container `nginx`.
+</Figure>
+
+Agora que temos um shell anexado ao container que queremos, com acesso a seus processos e filesystem, o debug ficou bem mais prático, ao mesmo tempo em que mantemos a segurança do nosso container principal que não possui shell.
+
+### Entrando no filesystem do container alvo quando user/group do processo é diferente
+
+No exemplo anterior, o manifesto de Pod utilizado não tinha o campo `securityContext` configurado, em especial os parâmetros `runAsUser` e `runAsGroup`, o que faz com que, por padrão, os processos executados dentro do container sejam executados como root, como mostra a imagem abaixo:
+
+<Figure
+  src={psUserGroupDebugContainerImage}
+  alt='Output do comando ps mostrando que o processo do NGINX de pid 1 faz parte do usuário e grupo root'
+>
+PID 1, do container `nginx`, faz parte do usuário e grupo `root`.
+</Figure>
+
+Como a imagem utilizada (`alpine:latest`) no comando `kubectl debug` também executa seus processos com usuário e grupo `root` por padrão, o acesso ao diretório `/proc/1/root` no container de debug foi feito sem problemas.
+Entretanto, como é feito o acesso caso o processo do `nginx` esteja associado a outro usuário e grupo?
+
+Para testarmos, vamos modificar nosso manifesto de exemplo e utilizar a imagem `nginxinc/nginx-unprivileged`, que executa o processo do nginx com usuário e grupo `nginx`, ambos com ID `101`:
+
+```yaml
+# [title: nginx-noshell.yaml]
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-unprivileged
+  name: nginx-unprivileged
+spec:
+  containers:
+  - name: nginx
+    image: nginxinc/nginx-unprivileged:1.31-alpine-slim
+    resources: {}
+    volumeMounts:
+      - name: nginx-conf
+        mountPath: /etc/nginx/nginx.conf
+        subPath: nginx.conf
+        readOnly: true
+  volumes:
+    - name: nginx-conf
+      configMap:
+        name: nginx-conf
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: default
+data:
+  nginx.conf: |
+    worker_processes auto;
+
+    error_log /dev/stderr warn;
+
+    pid /tmp/nginx.pid;
+
+    events {}
+
+    http {
+        proxy_temp_path /tmp/proxy_temp;
+        client_body_temp_path /tmp/client_temp;
+        fastcgi_temp_path /tmp/fastcgi_temp;
+        uwsgi_temp_path /tmp/uwsgi_temp;
+        scgi_temp_path /tmp/scgi_temp;
+
+      server {
+        listen 8080;
+        server_name _;
+
+        location / {
+          default_type text/plain;
+          return 200 "Hello World\n";
+        }
+      }
+    }
+```
+
+Após aplicar o manifesto via `kubectl apply`, criamos nosso container de debug utilizando a mesma imagem `alpine:latest`, confirmando que o nginx está executando corretamente:
+
+<Figure
+  src={nginxUnprivilegedDebugContainerSpawnImage}
+  alt='Imagem exibindo output do comando kubectl debug e wget, confirmando que o container de debug foi criado e que o nginx está executando corretamente'
+>
+</Figure>
+
+Também podemos confirmar que o nosso usuário no container de debug é de fato `root` e que o processo do nginx presente no container `nginx` está executando com o usuário e grupo de ID 101:
+
+<Figure
+  src={psNginxUserGroup101Image}
+  alt='Imagem mostrando que os processos do nginx que aparecem via comando ps estão associados ao usuário e grupo de ID 101'
+>
+PID 1, do container `nginx`, agora faz parte do usuário e grupo de ID 101. Note que a nossa sessão shell (**PID 33**) e o próprio comando `ps` que executamos (**PID 40**) executam como usuário e grupo root, já que nosso usuário/grupo é de fato `root`.
+</Figure>
+
+Como o nosso usuário e grupo atuais são diferentes do usuário e grupo responsáveis pelo processo do nginx, ao tentar entrar no diretório `/proc/1/root` como da última vez, teremos um aviso de permissão negada:
+
+<Figure
+  src={cdProcPidRootDeniedImage}
+  alt='Imagem mostrando permissão negada ao tentar entrar no diretório /proc/1/root com usuário e grupo root'
+>
+</Figure>
+
+Para resolver isso, teremos que mudar nosso usuário e grupo para que tenham o ID 101. Entretanto, como eles ainda não existem na imagem Alpine que estamos utilizando, vamos usar o comando `adduser` para criá-los:
+
+```bash
+adduser -HD -u 101 debuguser
+```
+
+<Callout type='info'>
+Como o ID do usuário e grupo utilizados pelo processo do nginx é 101, o comando acima é suficiente pois irá criar tanto o usuário quanto o grupo com nome `debuguser` e ID `101`.
+
+No cenário em que um processo tenha usuário e grupo com IDs diferentes, é necessário criar inicialmente o grupo de forma separada, e após isso criar o usuário, adicionando-o ao grupo.
+
+Isso pode ser feito através dos comandos de exemplo abaixo:
+
+```bash
+addgroup -g 102 debuguser # Grupo criado com ID 102
+adduser -HD -u 101 -G debuguser debuguser # Usuário criado com ID 101 e adicionado ao grupo previamente criado
+```
+</Callout>
+
+Com o usuário e grupo com o ID correto criados, podemos alterar nosso usuário com `su debuguser` e confirmar que o acesso ao diretório `/proc/1/root` não retorna mais erros:
+
+<Figure
+  src={debuguserCdProcPidRootSuccessfulImage}
+  alt='Imagem mostrando que o acesso ao /proc/1/root é bem-sucedido após a mudança para o usuário debuguser'
+>
+Como os IDs do grupo e usuário são os mesmos do processo, o acesso ao `/proc/1/root` é bem-sucedido.
+</Figure>
