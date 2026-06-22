@@ -3,7 +3,7 @@ import type { Metadata, Site, Socials, I18n } from "@/types";
 export const SITE: Site = {
   TITLE: "Gustavo Justo",
   DESCRIPTION: "Gustavo personal blog", // RSS and SEO related
-  EMAIL: "gustavo_justo@outlook.com",
+  EMAIL: "devops@gustavojusto.com",
   ENABLE_GISCUS: false,
   ENABLE_PROJECTS: false,
   // On screens narrower than 1536px, the side TOC is hidden and the inline TOC is shown instead (as if ENABLE_SIDE_TOC was false)
