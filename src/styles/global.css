@@ -144,6 +144,12 @@ pre.astro-code .line {
   min-width: 100%;
 }
 
+/* 3px padding for all lines that are not highlighted or with diff, so indentation between all lines matches */
+pre.has-diff [class="line"],
+pre.has-highlighted [class="line"] {
+  padding-left: 3px;
+}
+
 /* Styling for Highlighted lines (// [!code highlight]) */
 pre.astro-code .line.highlighted {
   @apply bg-neutral-300/40 dark:bg-neutral-600/40;
