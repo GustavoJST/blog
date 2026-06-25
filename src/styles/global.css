@@ -169,7 +169,6 @@ pre.astro-code .line.diff.add {
 /* Target any code block that has a title attribute */
 pre.astro-code[data-title] {
   padding-top: 3.5rem; /* Push the code down to make room for the title bar */
-  position: relative;
 }
 
 /* Light mode */
